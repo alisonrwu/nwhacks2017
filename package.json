@@ -1,0 +1,22 @@
+{
+  "name": "nwhacks2017",
+  "version": "1.0.0",
+  "description": "cockroachdb + nodejs geolocation chatroom",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alisonrwu/nwhacks2017.git"
+  },
+  "author": "alison",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alisonrwu/nwhacks2017/issues"
+  },
+  "homepage": "https://github.com/alisonrwu/nwhacks2017#readme",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
