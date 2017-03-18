@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/alisonrwu/nwhacks2017#readme",
   "dependencies": {
-    "express": "^4.15.2"
+    "async": "^2.1.5",
+    "express": "^4.15.2",
+    "pg": "^6.1.4"
   }
 }
