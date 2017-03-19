@@ -50,32 +50,74 @@ body {
     margin:0;
     padding:0;
     font-family: Roboto, sans-serif;
+    color:#363636;
     width:100%;
     height:100%;
     overflow-x:hidden;
     cursor:default;
-    background-color:#EEEEEE;
+    background-color:#EEE;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;
 }
 
 .divider {
     padding:0px 10px;
     width:calc(100% - 20px);
     height:1px;
-    background-color:#666;
+    background-color:#DDD;
     border-bottom:1px solid #FFF;
 }
 
+/** Sidebar modal window **/
 .sidebar {
-    position:absolute;
-    width:256px;
+    position:fixed;
+    width:100%;
+    height:100%;
     top:0;
     left:0;
     right:0;
     bottom:0;
-    background-color:#FF6600;
-    display:none;
+    display:block;
+    z-index:1000;
 }
 
+.sidebar .content {
+    position:absolute;
+    width:256px;
+    height:100%;
+    left:0;
+    top:0;
+    background-color:#EEE;
+    z-index:1001;
+}
+
+.sidebar .content .title {
+    padding:0px 10px;
+    height:48px;
+}
+
+.sidebar .content .title i, .sidebar .content .title span {
+    display:inline-block;
+    vertical-align: middle;
+    font-size:18px;
+    height:48px;
+    line-height:48px;
+}
+
+.sidebar .content .title i {
+    width:32px;
+    font-size:24px !important;
+}
+
+.sidebar .fade {
+    position:absolute;
+    width:100%;
+    height:100%;
+    opacity:0.5;
+    background-color:#000;
+}
+
+/** Main page content **/
 .main {
     
 }
@@ -86,7 +128,9 @@ body {
     height:64px;
     background-color:#03A9F4;
     padding:0px 4px;
-    box-shadow:0px 2px 4px #BCBCBC;
+    box-shadow:0px 0px 16px 0px #000;
+    position:fixed;
+    z-index: 100;
 }
 
 .main .header div {
@@ -106,17 +150,19 @@ body {
 }
 
 .main .content {
-    padding:10px;
+    padding-top:64px;
+    padding-left:10px;
+    padding-right:10px;
 }
 
 .main .content .post {
-    margin-left:auto;
-    margin-right:auto;
+    margin:10px auto;
     max-width:480px;
     min-height:100px;
-    border-radius:6px;
-    background-color:#FFF;
+    border-radius:4px;
+    background-color:#F4F4F4;
     overflow:hidden;
+    box-shadow:0px 2px 4px #BBB;
 }
 
 .main .content .post .image {
@@ -125,22 +171,106 @@ body {
     background-size:cover;
 }
 
-.main .content .post .details {
+.comments {
+    padding:0px 10px;
+}
+
+.comments .comment {
+    padding:10px 0px;
+}
+
+.comments .comment .details {
+    position:relative;
+    height:16px;
+    line-height:16px;
+}
+
+.comments .comment .details div {
+    height:16px;
+    line-height:16px;
     font-size:10px;
-    color:#A4A4A4;
-    text-transform: uppercase;
-    padding:0px 16px;
+    color:#BBB;
+    position:absolute;
+}
+
+.comments .comment .details .username {
+    left:0;
+    height:16px;
+    line-height: 16px;
+}
+
+.comments .comment .details .username i {
+    display:inline-block;
+    vertical-align: middle;
+    width:8px;
+    height:8px;
+    border-radius:4px;
+}
+
+.comments .comment .details .username span {
+    display:inline-block;
+    vertical-align: middle;
+}
+
+.comments .comment .details .timestamp {
+    right:0;
+}
+
+.comments .comment .details .timestamp i, .comments .comment .details .timestamp span {
+    display:inline-block;
+    vertical-align: middle;
+    font-size:10px !important;
+    height:16px;
+    line-height: 16px;
+}
+
+.comments .comment .text {
+    font-size:14px;
+    color:#555;
+}
+
+.comments .comments-hidden {
+    text-align:center;
+    font-size:10px;
+    color:#BBB;
     height:24px;
     line-height:24px;
+}
+
+.comments .comment-input {
+    padding:10px 0px;
+}
+
+.comments .comment-input input[type="text"] {
+    display:inline-block;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    color:#555;
+    padding:8px;
+    width: calc(100% - 64px);
+    border:1px solid #FFF;
+    border-radius: 4px;
+}
+
+.comments .comment-input input[type="text"]:focus {
+    outline:none;
+    box-shadow:0px 0px 4px 0px #BBB;
+}
+
+.comments .comment-input .submit {
+    float:right;
+    cursor:pointer;
+    color:#BBB;
+    height:34px;
+    width:34px;
     position:relative;
 }
 
-.main .content .post .details .username {
+.comments .comment-input .submit i {
+    padding-top:5px;
     position:absolute;
-    left:10px;
 }
 
-.main .content .post .details .timestamp {
-    position:absolute;
-    right:10px;
+.comments .comment-input .submit:hover, .comments .comment-input .submit:active {
+    color:#666;
 }
