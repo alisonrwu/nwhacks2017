@@ -25,8 +25,10 @@ router.post('/', function(req, res) {
 router.post('/', (req, res, next) => {
   const results = [];
   // Grab data from http request
-  const data = {content: "stuff", lat: 5,long: 5, 
-  				max_life: 5}
+  var time_stamp = new Date(); 
+  const data = {time_stamp:time_stamp, content: req.body["content"], lat: req.body["lat"],
+  				long: req.body["long"],	max_life: req.body["max_life"]}
+
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
     // Handle connection errors
@@ -39,11 +41,11 @@ router.post('/', (req, res, next) => {
     //longitude, latitude instead of location object easier?
 
     //get DateTime
-    var timestamp = new Date().toLocaleString();
-    console.log(timestamp);
 
-    client.query('INSERT INTO post(timestamp, content,lat,long,max_life) values($1,$2,$3,$4,$5)',
-    [data.timestamp, data.content, data.lat, data.long, data.max_life]);
+    console.log(time_stamp);
+
+    client.query('INSERT INTO post(time_stamp, content,lat,long,max_life) values($1,$2,$3,$4,$5)',
+    [data.time_stamp, data.content, data.lat, data.long, data.max_life]);
     // SQL Query > Select Data
     const query = client.query('SELECT * FROM post ORDER BY id ASC');
     // Stream results back one row at a time
@@ -70,6 +72,68 @@ router.get('/', (req, res, next) => {
     }
     // SQL Query > Select Data
     const query = client.query('SELECT * FROM post ORDER BY id ASC;');
+    // Stream results back one row at a time
+    query.on('row', (row) => {
+      results.push(row);
+    });
+    // After all data is returned, close connection and return results
+    query.on('end', () => {
+      done();
+      return res.json(results);
+    });
+  });
+});
+
+router.post('/comments', (req, res, next) => {
+  const results = [];
+  // Grab data from http request
+  var time_stamp = new Date(); 
+  const data = {time_stamp:time_stamp, content: req.body["content"], lat: req.body["lat"],
+  				long: req.body["long"],	max_life: req.body["max_life"]}
+
+  // Get a Postgres client from the connection pool
+  pg.connect(config, (err, client, done) => {
+    // Handle connection errors
+    if(err) {
+      done();
+      console.log(err);
+      return res.status(500).json({success: false, data: err});
+    }
+    // SQL Query > Insert Data
+    //longitude, latitude instead of location object easier?
+
+    //get DateTime
+
+    console.log(time_stamp);
+
+    client.query('INSERT INTO comments(post_id, time_stamp,username,content,max_life) values($1,$2,$3,$4,$5)',
+    [data.time_stamp, data.content, data.lat, data.long, data.content]);
+    // SQL Query > Select Data
+    const query = client.query('SELECT * FROM comments ORDER BY id ASC');
+    // Stream results back one row at a time
+    query.on('row', (row) => {
+      results.push(row);
+    });
+    // After all data is returned, close connection and return results
+    query.on('end', () => {
+      done();
+      return res.json(results);
+    });
+  });
+});
+
+router.get('/comments', (req, res, next) => {
+  const results = [];
+  // Get a Postgres client from the connection pool
+  pg.connect(connectionString, (err, client, done) => {
+    // Handle connection errors
+    if(err) {
+      done();
+      console.log(err);
+      return res.status(500).json({success: false, data: err});
+    }
+    // SQL Query > Select Data
+    const query = client.query('SELECT * FROM comments ORDER BY id ASC;');
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);

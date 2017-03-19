@@ -29,10 +29,10 @@
           type: "POST",
           url: "/posts",
           data: {content:$('#content').val(),lat:$('#lat').val(),long:$('#long').val(),
-          max_life:$('#max_life').val(), 
-          time_stamp:$('#time_stamp').val()},
+          max_life:$('#max_life').val()},
           success: function(data){
-            alert(data);
+            console.log(data);
+            return data;
             },
           dataType: "JSON"
           });

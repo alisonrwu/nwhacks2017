@@ -1,8 +1,14 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser')
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 var posts = require('./routes/posts');
 var map = require('./routes/map');
+
 
 // var async = require('async');
 // var pg = require('pg');
