@@ -1,7 +1,8 @@
 var DATABASE = (function($) {
+    var host = "http://ancient-savannah-98407.herokuapp.com/";
     function loadPosts(nLat, nLon, nRadius, fCallback) {
         $.ajax({
-            url:"http://lowcost-env.2kvv25rcx6.ca-central-1.elasticbeanstalk.com/posts",
+            url:host + "posts",
             data: {
                 lat:nLat,
                 lon:nLon,
@@ -16,7 +17,7 @@ var DATABASE = (function($) {
     
     function loadComments(iPostID, fCallback) {
         $.ajax({
-           url: 'http://lowcost-env.2kvv25rcx6.ca-central-1.elasticbeanstalk.com/posts/comments',
+           url: host + 'posts/comments',
            data: {
               post_id:iPostID
            },
@@ -29,7 +30,7 @@ var DATABASE = (function($) {
     
     function addPost(nLat, nLon, sImageURL, nMaxLife, fCallback) {
         $.ajax({
-            url:'http://lowcost-env.2kvv25rcx6.ca-central-1.elasticbeanstalk.com/posts',
+            url:host + 'posts',
             data: {
                 lat:nLat,
                 long:nLon,
@@ -45,13 +46,12 @@ var DATABASE = (function($) {
     
     function addComment(iPostID, sUsername, sContent, fCallback) {
         $.ajax({
-            url:'http://lowcost-env.2kvv25rcx6.ca-central-1.elasticbeanstalk.com/posts/comments',
+            url:host + 'posts/comments',
             data: {
                 post_id:iPostID,
                 username:sUsername,
                 content:sContent
             },
-            dataType:"JSON",
             error:function(e) {
                 alert("Error!");
                 alert(JSON.stringify(e));

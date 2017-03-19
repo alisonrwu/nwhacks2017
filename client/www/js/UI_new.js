@@ -13,6 +13,7 @@ var UI = (function($) {
     
     var photoSelected = false;
     var uploading = false;
+    var comment = "";
     function setupUI() {
         $(".menu-button").click(SIDEBAR.open);
         $(".sidebar .fade").click(SIDEBAR.close);
@@ -27,11 +28,9 @@ var UI = (function($) {
     function submitPost() {
         if(uploading) return;
         
-        submitPost_cockroach("test.jpg");
-        
-        return;
         var sText = $(".comment-input input").val().trim();
         sText = sText.length > 140 ? sText.substr(0, 140) : sText;
+        comment = sText;
         
         if(!photoSelected) {
             displayNotification("warning", "Please select an image.");
@@ -81,18 +80,18 @@ var UI = (function($) {
         var obj = JSON.parse(data.response);
         var imageName = obj.url;
         
-        alert("Upload complete: " + imageName);
-        
         submitPost_cockroach(imageName);
     }
     
     function submitPost_cockroach(imageName) {
         CordovaInterface.getPosition(function(position) {
-            alert("Got pos");
-            DATABASE.addPost(position.coords.latitude, position.coords.longitude, imageName, function(data) {
+            DATABASE.addPost(position.coords.latitude, position.coords.longitude, imageName, 5, function(data) {
                // Added, now add top level comment
-                alert("Added post.");
-                alert(JSON.stringify(data));
+                var obj = data[0];
+                var id = obj.id;
+                DATABASE.addComment(id, "Original Poster", comment, function(final) {
+                    displayNotification("check", "Success!");
+                });
             });
         });
     }

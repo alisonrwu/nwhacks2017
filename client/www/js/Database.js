@@ -1,7 +1,8 @@
 var DATABASE = (function($) {
+    var host = "http://ancient-savannah-98407.herokuapp.com/";
     function loadPosts(nLat, nLon, nRadius, fCallback) {
         $.ajax({
-            url:"http://ancient-savannah-98407.herokuapp.com/posts",
+            url:host + "posts",
             data: {
                 lat:nLat,
                 lon:nLon,
@@ -14,14 +15,30 @@ var DATABASE = (function($) {
         });
     }
     
+    var loadingComments = false;
+    var loadCommentsQueue = new Array();
     function loadComments(iPostID, fCallback) {
+        loadCommentsQueue.push([iPostID, fCallback]);
+        loadComments_next();
+    }
+    
+    function loadComments_next() {
+        if(loadingComments) return;
+        if(loadCommentsQueue.length == 0) return;
+        
+        var nextComments = loadCommentsQueue[0];
+        loadCommentsQueue.splice(0, 1);
+        loadingComments = true;
+        
         $.ajax({
-           url: 'http://ancient-savannah-98407.herokuapp.com/posts/comments',
+           url: host + 'posts/comments',
            data: {
-              post_id:iPostID
+              post_id:nextComments[0]
            },
            success: function(data) {
-               fCallback(data);
+               loadingComments = false;
+               nextComments[1](data); // call callback
+               loadComments_next();
            },
            type: 'GET'
         });
@@ -29,7 +46,7 @@ var DATABASE = (function($) {
     
     function addPost(nLat, nLon, sImageURL, nMaxLife, fCallback) {
         $.ajax({
-            url:'http://ancient-savannah-98407.herokuapp.com/posts',
+            url:host + 'posts',
             data: {
                 lat:nLat,
                 long:nLon,
@@ -45,13 +62,12 @@ var DATABASE = (function($) {
     
     function addComment(iPostID, sUsername, sContent, fCallback) {
         $.ajax({
-            url:'http://ancient-savannah-98407.herokuapp.com/posts/comments',
+            url:host + 'posts/comments',
             data: {
                 post_id:iPostID,
                 username:sUsername,
                 content:sContent
             },
-            dataType:"JSON",
             error:function(e) {
                 alert("Error!");
                 alert(JSON.stringify(e));
