@@ -99,7 +99,7 @@ router.get('/details', (req, res, next) => {
   const results = [];
   const post_id = req.query["post_id"];
 
-  const queryString = "SELECT * from post WHERE id='" + post_id + "' LIMIT 1";
+  const queryString = "SELECT * from post WHERE id= " + post_id + " LIMIT 1";
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
     // Handle connection errors
