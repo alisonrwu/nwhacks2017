@@ -10,17 +10,7 @@ var posts = require('./routes/posts');
 var map = require('./routes/map');
 
 
-// var async = require('async');
-// var pg = require('pg');
-
 var PORT = 8080;
-// Connect to the cluster.
-// var config = {
-//   user: 'root',
-//   host: '52.60.142.17', //ip address of server
-//   database: 'bank',
-//   port: 26257
-// };
 
 // Add headers
 app.use(function (req, res, next) {
@@ -45,8 +35,8 @@ app.use(function (req, res, next) {
 app.use('/posts', posts);
 app.use('/map', map);
 
-app.listen(PORT, function(){
-    console.log("Server listening on: http://localhost:%s", PORT);
+app.listen(process.env.PORT || PORT, function(){
+    console.log(__dirname);
 });
 
 app.get('/', function (req, res) {

@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>Get Post Page: Retrieve all rows within a certain distance</title>
+    </head>
+    <body>
+    <button type="button" method="get" id="getButton")">Get</button>
+    </body>
+</html>
+
+<script
+  src="https://code.jquery.com/jquery-3.2.0.min.js"
+  integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="
+  crossorigin="anonymous">
+</script>
+
+<script>
+$(document).ready(function(){
+	console.log("document is ready");
+    $("#getButton").on("click", (function(e){
+    	console.log("click worked");
+        e.preventDefault();
+        $.ajax({
+          type: "GET", 	
+          url: "/posts",
+          success: function(data){
+            alert(data);
+            },
+          dataType: "JSON"
+          });
+    }))
+});
+</script>

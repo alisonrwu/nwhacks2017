@@ -17,7 +17,7 @@ CREATE TABLE post (
 CREATE TABLE comment (
 	id SERIAL PRIMARY KEY NOT NULL,
 	post_id INT NOT NULL,
-	time_stamp TIMESTAMP NOT NULL,
+	time_stamp INT NOT NULL,
 	username VARCHAR NOT NULL,
 	content VARCHAR NOT NULL
 );
