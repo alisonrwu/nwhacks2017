@@ -29,9 +29,9 @@ router.get('/', function(req, res){
 			return res.status(500).json({success: false, data: err});
 		}
 		// SQL Query > Select Data
-		const query = client.query('SELECT lat,long,content FROM post ORDER BY id ASC;');
+		const query = client.query('SELECT lat,long,id,content FROM post;');
 		// Stream results back one row at a time
-		results.push({'lat': lat, 'long': long});
+		results.push({'lat': lat, 'long': long}); //for current location
 		query.on('row', (row) => {
 			results.push(row);
 		});
