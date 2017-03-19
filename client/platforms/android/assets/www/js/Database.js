@@ -15,6 +15,19 @@ var DATABASE = (function($) {
         });
     }
     
+    function loadPost(iPostID, fCallback) {
+        $.ajax({
+            url:host + "posts/details",
+            data: {
+                post_id:iPostID
+            },
+            success:function(data) {
+                fCallback(data);
+            },
+            type:"GET"
+        });
+    }
+    
     var loadingComments = false;
     var loadCommentsQueue = new Array();
     function loadComments(iPostID, fCallback) {
@@ -96,6 +109,7 @@ var DATABASE = (function($) {
     
     return {
         loadPosts:loadPosts,
+        loadPost:loadPost,
         loadComments:loadComments,
         addComment:addComment,
         addPost:addPost,

@@ -58,7 +58,7 @@ var UI = (function($) {
 var LIST_VIEW = (function($) {
     function addPost(iPostID, sImageURL) {
         $(".main .content").append('<div class="post" id="post'+iPostID+'">\
-                    <div class="image" style="background-image:url('+sImageURL+')"></div>\
+                    <a href="details.html?post_id='+iPostID+'"><div class="image" style="background-image:url('+sImageURL+')"></div></a>\
                     <div class="comments">\
                         <div class="comment-input">\
                             <input class="text" type="text" placeholder="Add a comment..." maxlength="140" />\
