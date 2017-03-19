@@ -25,7 +25,7 @@ router.post('/', function(req, res) {
 router.post('/', (req, res, next) => {
   const results = [];
   // Grab data from http request
-  var time_stamp = new Date();
+  var time_stamp = Math.floor(Date.now() / 1000)
   const data = {time_stamp:time_stamp, content: req.query["content"], lat: req.query["lat"],
   				long: req.query["long"],	max_life: req.query["max_life"]}
 
@@ -95,7 +95,7 @@ router.get('/', (req, res, next) => {
 router.post('/comments', (req, res, next) => {
   const results = [];
   // Grab data from http request
-  var time_stamp = new Date(); 
+  var time_stamp = Math.floor(Date.now() / 1000)
   const data = {time_stamp:time_stamp, post_id: req.query["post_id"], username: req.query["username"],
   				content: req.query["content"]}
 
@@ -135,7 +135,7 @@ router.get('/comments', (req, res, next) => {
   const id = req.query["post_id"]; // this will be passed in by JS
   const queryString = "SELECT * FROM comment WHERE post_id = " + id + " ORDER BY id ASC;";
   // Get a Postgres client from the connection pool
-    const time_stamp = new Date();
+    const time_stamp = Math.floor(Date.now() / 1000)
     console.log(time_stamp);
   pg.connect(config, (err, client, done) => {
     // Handle connection errors

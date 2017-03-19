@@ -1,5 +1,3 @@
-var locations;
-
 var UI = (function($) {
     var cordovaReady = false;
     var jQueryReady = false;
@@ -36,13 +34,24 @@ var UI = (function($) {
     }
     
     function refreshMap_processLocations(json) {
-        console.log(json);
-        locations = json;
-        // for(var key in json) {
-            // var obj = json[key];
-            // LIST_VIEW.addPost(obj.id, obj.content);
-            // DATABASE.loadComments(obj.id, refreshPosts_processComments);
-        // }
+        for(var obj of json){
+            var longValue = obj['long'];
+            delete obj['long'];
+            obj.lng = longValue;
+        }
+
+        var locations = json;
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: locations[0]
+        });
+
+        for(var loc of locations){
+            var marker = new google.maps.Marker({
+                position: loc,
+                map: map
+            });
+        }
     }
     
     return {
@@ -53,18 +62,18 @@ var UI = (function($) {
 
 
 function initMap() {
-    var locations = [{lat: -25.363, lng: 131.044}, {lat: -24.363, lng: 130.044}];
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 4,
-        center: locations[0]
-    });
+    // var locations = [{lat: -25.363, lng: 131.044}, {lat: -24.363, lng: 130.044}];
+    // var map = new google.maps.Map(document.getElementById('map'), {
+    //     zoom: 4,
+    //     center: locations[0]
+    // });
 
-    for(var loc of locations){
-        var marker = new google.maps.Marker({
-            position: loc,
-            map: map
-        });
-    }
+    // for(var loc of locations){
+    //     var marker = new google.maps.Marker({
+    //         position: loc,
+    //         map: map
+    //     });
+    // }
 }
 
 
