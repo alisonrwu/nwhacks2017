@@ -1,7 +1,8 @@
 var DATABASE = (function($) {
+    var host = "http://ancient-savannah-98407.herokuapp.com/";
     function loadPosts(nLat, nLon, nRadius, fCallback) {
         $.ajax({
-            url:"http://localhost:8080/posts",
+            url:host + "posts",
             data: {
                 lat:nLat,
                 lon:nLon,
@@ -16,7 +17,7 @@ var DATABASE = (function($) {
     
     function loadComments(iPostID, fCallback) {
         $.ajax({
-           url: 'http://localhost:8080/posts/comments',
+           url: host + 'posts/comments',
            data: {
               post_id:iPostID
            },
@@ -27,15 +28,30 @@ var DATABASE = (function($) {
         });
     }
     
+    function addPost(nLat, nLon, sImageURL, nMaxLife, fCallback) {
+        $.ajax({
+            url:host + 'posts',
+            data: {
+                lat:nLat,
+                long:nLon,
+                max_life:nMaxLife,
+                content:sImageURL
+            },
+            success:function(data) {
+                fCallback(data);
+            },
+            type:'POST'
+        });
+    }
+    
     function addComment(iPostID, sUsername, sContent, fCallback) {
         $.ajax({
-            url:'http://localhost:8080/posts/comments',
+            url:host + 'posts/comments',
             data: {
                 post_id:iPostID,
                 username:sUsername,
                 content:sContent
             },
-            dataType:"JSON",
             error:function(e) {
                 alert("Error!");
                 alert(JSON.stringify(e));
@@ -47,10 +63,26 @@ var DATABASE = (function($) {
         });
     }
     
+    function uploadImage(fileURL, fileMimeType, fCallback) {
+        var options = new FileUploadOptions();
+        options.fileKey = "image";
+        options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+        options.mimeType = fileMimeType;
+
+        var ft = new FileTransfer();
+        ft.upload(fileURL, encodeURI("https://www.ryanwirth.ca/misc/nwhacks2017/upload.php"), function(data) {
+            fCallback(data);
+        }, function(err) {
+            alert(err);
+        }, options);
+    }
+    
     
     return {
         loadPosts:loadPosts,
         loadComments:loadComments,
-        addComment:addComment
+        addComment:addComment,
+        addPost:addPost,
+        uploadImage:uploadImage
     }
 })(jQuery);

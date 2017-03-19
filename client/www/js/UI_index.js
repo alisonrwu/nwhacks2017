@@ -32,7 +32,7 @@ var UI = (function($) {
     function refreshPosts_processPosts(json) {
         for(var key in json) {
             var obj = json[key];
-            LIST_VIEW.addPost(obj.id, obj.content);
+            LIST_VIEW.addPost(obj.id, "https://www.ryanwirth.ca/misc/nwhacks2017/hotlink-ok/" + obj.content);
             DATABASE.loadComments(obj.id, refreshPosts_processComments);
         }
     }
@@ -40,8 +40,7 @@ var UI = (function($) {
     function refreshPosts_processComments(json) {
         for(var key in json) {
             var obj = json[key];
-            var nTime = Date.parse(obj.time_stamp);
-            LIST_VIEW.addComment(obj.post_id, obj.id, nTime, "FF0000", obj.username, obj.content);
+            LIST_VIEW.addComment(obj.post_id, obj.id, obj.time_stamp, LIST_VIEW.hashNameToColor(obj.username, obj.post_id), obj.username, obj.content);
         }
     }
     
@@ -77,7 +76,7 @@ var LIST_VIEW = (function($) {
         $('<div class="comment" data-id="'+iCommentID+'" id="comment'+iCommentID+'">\
                 <div class="details">\
                     <div class="username">\
-                        <i class="color" style="background-color:#'+hColor+'"></i>\
+                        <i class="color" style="background-color:'+hColor+'"></i>\
                         <span>'+sName+'</span>\
                     </div>\
                     <div class="timestamp" data-time="'+nMillisecondsSinceEpoch+'">\
@@ -96,25 +95,25 @@ var LIST_VIEW = (function($) {
     
     function postComment() {
         var sCommentText = $(this).siblings(".text").val().trim()
-        var iPostID = parseInt($(this).data("id"));
+        var iPostID = $(this).data("id");
+        
         if(sCommentText.length == 0) return;
         else if(sCommentText.length > 140) sCommentText = sCommentText.substr(0, 140);
         
         $(this).siblings(".text").val("");
-        DATABASE.addComment(iPostID, "Rye" + Date.now(), sCommentText, function(data) {
-            var obj = data[0];
-            var nTime = Date.parse(obj.time_stamp);
-            addComment(obj.post_id, obj.id, nTime, "FF0000", obj.username, obj.content);
+        DATABASE.addComment(iPostID, getRandomName(), sCommentText, function(data) {
+            var obj = data[data.length - 1];
+            addComment(obj.post_id, obj.id, obj.time_stamp, hashNameToColor(obj.username, obj.post_id), obj.username, obj.content);
         });
     }
     
     function updateTimestamps() {
-        var nCurrentMillisecondsSinceEpoch = Date.now();
+        var nCurrentSecondsSinceEpoch = Date.now() / 1000;
         $(".comment .timestamp").each(function() {
             var nTime = parseInt($(this).data("time"));
-            var nDiff = nCurrentMillisecondsSinceEpoch - nTime;
+            var nDiff = nCurrentSecondsSinceEpoch - nTime;
             var sText = 0;
-            var nSeconds = nDiff / 1000;
+            var nSeconds = nDiff;
             if(nSeconds < 60) {
                 if(nSeconds < 30) sText = "just now";
                 else sText = Math.floor(nSeconds) + " sec ago";
@@ -135,12 +134,45 @@ var LIST_VIEW = (function($) {
         })
     }
     
+    function hashNameToColor(sName, iPostID) {
+        return rainbow();
+    }
+    
+    function hashString(sString) {
+            var hash = 0;
+            if (sString.length == 0) return hash;
+            for (i = 0; i < sString.length; i++) {
+                char = sString.charCodeAt(i);
+                hash = ((hash<<5)-hash)+char;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            return hash;
+        }
+    
+    function rainbow() {
+      // 30 random hues with step of 12 degrees
+      var hue = Math.floor(Math.random() * 30) * 12;
+
+      return $.Color({
+        hue: hue,
+        saturation: 0.9,
+        lightness: 0.6,
+        alpha: 1
+      }).toHexString();
+    }
+    
+    var randomNames = ["Alpaca", "Tiger", "Lion", "Zebra", "Monkey", "Elephant", "Cow", "Chicken", "Dog", "Duck", "Goose", "Sheep", "Snake", "Cockroach"];
+    function getRandomName() {
+        var randInt = Math.floor(Math.random() * randomNames.length);
+        return "Random " + randomNames[randInt];
+    }
     
     return {
         addPost:addPost,
         addComment:addComment,
         postComment:postComment,
-        updateTimestamps:updateTimestamps
+        updateTimestamps:updateTimestamps,
+        hashNameToColor:hashNameToColor
     }
 })(jQuery);
 

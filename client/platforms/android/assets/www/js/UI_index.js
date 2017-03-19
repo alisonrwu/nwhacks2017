@@ -32,7 +32,7 @@ var UI = (function($) {
     function refreshPosts_processPosts(json) {
         for(var key in json) {
             var obj = json[key];
-            LIST_VIEW.addPost(obj.id, obj.content);
+            LIST_VIEW.addPost(obj.id, "https://www.ryanwirth.ca/misc/nwhacks2017/hotlink-ok/" + obj.content);
             DATABASE.loadComments(obj.id, refreshPosts_processComments);
         }
     }
@@ -40,8 +40,7 @@ var UI = (function($) {
     function refreshPosts_processComments(json) {
         for(var key in json) {
             var obj = json[key];
-            var nTime = Date.parse(obj.time_stamp);
-            LIST_VIEW.addComment(obj.post_id, obj.id, nTime, "FF0000", obj.username, obj.content);
+            LIST_VIEW.addComment(obj.post_id, obj.id, obj.time_stamp, "FF0000", obj.username, obj.content);
         }
     }
     
@@ -96,25 +95,25 @@ var LIST_VIEW = (function($) {
     
     function postComment() {
         var sCommentText = $(this).siblings(".text").val().trim()
-        var iPostID = parseInt($(this).data("id"));
+        var iPostID = $(this).data("id");
+        
         if(sCommentText.length == 0) return;
         else if(sCommentText.length > 140) sCommentText = sCommentText.substr(0, 140);
         
         $(this).siblings(".text").val("");
         DATABASE.addComment(iPostID, "Rye" + Date.now(), sCommentText, function(data) {
-            var obj = data[0];
-            var nTime = Date.parse(obj.time_stamp);
-            addComment(obj.post_id, obj.id, nTime, "FF0000", obj.username, obj.content);
+            var obj = data[data.length - 1];
+            addComment(obj.post_id, obj.id, obj.time_stamp, "FF0000", obj.username, obj.content);
         });
     }
     
     function updateTimestamps() {
-        var nCurrentMillisecondsSinceEpoch = Date.now();
+        var nCurrentSecondsSinceEpoch = Date.now() / 1000;
         $(".comment .timestamp").each(function() {
             var nTime = parseInt($(this).data("time"));
-            var nDiff = nCurrentMillisecondsSinceEpoch - nTime;
+            var nDiff = nCurrentSecondsSinceEpoch - nTime;
             var sText = 0;
-            var nSeconds = nDiff / 1000;
+            var nSeconds = nDiff;
             if(nSeconds < 60) {
                 if(nSeconds < 30) sText = "just now";
                 else sText = Math.floor(nSeconds) + " sec ago";
