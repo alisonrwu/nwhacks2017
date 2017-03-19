@@ -23,7 +23,7 @@ if($_FILES['image']['name'])
 		if($valid_file)
 		{
 			//move it to where we want it to be
-            move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/'.$new_file_name);
+            move_uploaded_file($_FILES['image']['tmp_name'], 'hotlink-ok/'.$new_file_name);
             $response["status"] = "SUCCESS";
             $response["url"] = $new_file_name;
             $response["type"] = $_FILES['image']['type'];

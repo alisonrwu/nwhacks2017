@@ -7,8 +7,16 @@
     <feature name="Geolocation">
         <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
     </feature>
-    <feature name="ImagePicker">
-        <param name="android-package" value="com.synconset.ImagePicker" />
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-navigation href="cdvfile:*" />
+    <feature name="FileTransfer">
+        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
     </feature>
     <name>CacheRoom</name>
     <description>
@@ -17,7 +25,7 @@
     <author email="ryan@ryanwirth.ca" href="http://www.ryanwirth.ca">
         Ryan Wirth
     </author>
-    <content src="placeholder-index.html" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
