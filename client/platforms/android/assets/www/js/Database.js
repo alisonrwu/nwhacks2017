@@ -1,5 +1,5 @@
 var DATABASE = (function($) {
-    var host = "http://ancient-savannah-98407.herokuapp.com/";
+    var host = "https://ancient-savannah-98407.herokuapp.com/";
     function loadMap(nLat, nLon, fCallback) {
         $.ajax({
             url:host + "map",

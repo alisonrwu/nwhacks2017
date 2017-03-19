@@ -60,6 +60,10 @@ body {
     -webkit-tap-highlight-color: transparent;
 }
 
+a, a:visited, a:hover, a:active {
+    text-decoration: none;
+}
+
 .divider {
     padding:0px 10px;
     width:calc(100% - 20px);
