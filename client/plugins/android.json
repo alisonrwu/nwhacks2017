@@ -15,10 +15,16 @@
         },
         "cordova-plugin-camera": {
             "PACKAGE_NAME": "com.nwhacks2017.geopost"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "com.nwhacks2017.geopost"
         }
     },
     "dependent_plugins": {
         "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.nwhacks2017.geopost"
+        },
+        "cordova-plugin-file": {
             "PACKAGE_NAME": "com.nwhacks2017.geopost"
         }
     }

@@ -11,6 +11,8 @@ var UI = (function($) {
         if(cordovaReady) setupUI();
     }
     
+    var photoSelected = false;
+    var uploading = false;
     function setupUI() {
         $(".menu-button").click(SIDEBAR.open);
         $(".sidebar .fade").click(SIDEBAR.close);
@@ -18,20 +20,98 @@ var UI = (function($) {
         //alert("ready.");
         $("#take-photo").click(takePhoto);
         $("#choose-photo").click(choosePhoto);
+        
+        $(".submit").click(submitPost);
+    }
+    
+    function submitPost() {
+        if(uploading) return;
+        
+        var sText = $(".comment-input input").val().trim();
+        sText = sText.length > 140 ? sText.substr(0, 140) : sText;
+        
+        if(!photoSelected) {
+            displayNotification("warning", "Please select an image.");
+            return;
+        }
+        
+        if(sText.length == 0) {
+            displayNotification("warning", "Please enter a description.");
+            return;
+        }
+        
+        var fileURL = $(".background").attr("src");
+        var fileData = fileURL.split(".");
+        var fileExt = fileData[fileData.length - 1].toLowerCase();
+        var mimeType = "";
+        switch(fileExt)
+        {
+            case "bmp":
+                mimeType = "image/bmp";
+                break;
+            case "gif":
+                mimeType = "image/gif";
+                break;
+            case "jpeg":
+            case "jpg":
+            case "jpe":
+                mimeType = "image/jpeg";
+                break;
+            case "tiff":
+            case "tif":
+                mimeType = "image/tiff";
+                break;
+            case "png":
+                mimeType = "image/png";
+                break;
+        }
+        
+        $(".comment-input input").prop("disabled", "true");
+        displayNotification("access_time", "Uploading, please wait...");
+        uploading = true;
+        
+        DATABASE.uploadImage($(".background").attr("src"), mimeType, submitPost_success);
+    }
+    
+    function submitPost_success(data) {
+        // Get the image name
+        var obj = JSON.parse(data.response);
+        var imageName = obj.url;
+        
+        alert("Upload complete: " + imageName);
+        
+        CordovaInterface.getPosition(function(position) {
+            DATABASE.addPost(position.coords.latitude, position.coords.longitude, imageName, function(data) {
+               // Added, now add top level comment
+                alert("Added post.");
+                alert(JSON.stringify(data));
+            });
+        });
+    }
+    
+    function displayNotification(notificationType, text) {
+        $(".upload-notification").remove();
+        $(".image-details").append('<div class="upload-notification '+notificationType+'">\
+                        <i class="material-icons">'+notificationType+'</i>\
+                        <span>'+text+'</span>\
+                    </div>');
     }
     
     function takePhoto() {
-        navigator.camera.getPicture(selectImage_success, selectImage_failure, { quality: 100, destinationType: Camera.DestinationType.FILE_URI, sourceType:Camera.PictureSourceType.CAMERA});
+        if(uploading) return;
+        
+        navigator.camera.getPicture(selectImage_success, selectImage_failure, { quality: 50, destinationType: Camera.DestinationType.FILE_URI, sourceType:Camera.PictureSourceType.CAMERA});
     }
     
     function choosePhoto() {
-        navigator.camera.getPicture(selectImage_success, selectImage_failure, {quality:100, destinationType:Camera.DestinationType.FILE_URI, sourceType:Camera.PictureSourceType.PHOTOLIBRARY});
+        if(uploading) return;
+        
+        navigator.camera.getPicture(selectImage_success, selectImage_failure, {quality:75, destinationType:Camera.DestinationType.FILE_URI, sourceType:Camera.PictureSourceType.PHOTOLIBRARY});
     }
     
     function selectImage_success(imageURI) {
-        alert(imageURI);
-        $(".image-selector").css("background-image", "url('"+imageURI+"')");
-        $("#test").attr("src", imageURI);
+        photoSelected = true;
+        $(".background").attr("src", imageURI);
     }
     
     function selectImage_failure(message) {

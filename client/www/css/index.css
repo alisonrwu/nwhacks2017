@@ -265,7 +265,7 @@ body {
     padding:10px 0px;
 }
 
-.comments .comment-input input[type="text"] {
+.comment-input input[type="text"] {
     display:inline-block;
     font-family: Roboto, sans-serif;
     font-size: 14px;
@@ -276,12 +276,12 @@ body {
     border-radius: 4px;
 }
 
-.comments .comment-input input[type="text"]:focus {
+.comment-input input[type="text"]:focus {
     outline:none;
     box-shadow:0px 0px 4px 0px #BBB;
 }
 
-.comments .comment-input .submit {
+.comment-input .submit {
     float:right;
     cursor:pointer;
     color:#BBB;
@@ -290,12 +290,12 @@ body {
     position:relative;
 }
 
-.comments .comment-input .submit i {
+.comment-input .submit i {
     padding-top:5px;
     position:absolute;
 }
 
-.comments .comment-input .submit:hover, .comments .comment-input .submit:active {
+.comment-input .submit:hover, .comment-input .submit:active {
     color:#666;
 }
 
@@ -327,26 +327,76 @@ body {
     height:240px;
     color:#FFF;
     border-radius:4px;
-    background-image:url("../img/default.jpeg");
-    background-size:cover;
+    overflow:hidden;
+    position:relative;
 }
 
 .content .image-selector .image-selector-half {
+    position:absolute;
     cursor:pointer;
-    height:100%;
-    width:calc(50% - 2px);
+    height:240px;
+    width:50%;
     text-align:center;
     text-shadow: 0px 1px 4px #000;
     display:inline-block;
+    z-index:100;
 }
 
-.content .image-selector .image-selector-half span {
+.content .image-selector .image-selector-half:last-child {
+    right:0;
+}
+
+.content .image-selector .image-selector-half div {
     position:relative;
     top:50%;
-    transform:translateY(-50%);
+  margin:10px;  transform:translateY(-50%);
+}
+
+.content .image-selector img {
+    position:absolute;
+    width:100%;
 }
 
 .content .image-selector .image-selector-half:hover,
 .content .image-selector .image-selector-half:active {
     font-family:Roboto-Bold, sans-serif;
+}
+
+.content .image-details {
+    width:100%;
+    max-width:480px;
+    margin:10px auto;
+}
+
+.content .image-details .upload-notification {
+    margin:10px 0px;
+    padding:10px;
+    height:16px;
+    font-size:14px;
+    font-family:Roboto-Bold, sans-serif;
+    border-radius:4px;
+}
+
+.content .image-details .warning {
+    background-color:#F2DEDE;
+    color:#A94442;
+}
+
+.content .image-details .access_time {
+    background-color:#D9EDF7;
+    color:#457E9B;
+}
+
+.content .image-details .check {
+    background-color:#DFF0D8;
+    color:#639362;
+}
+
+.content .image-details .upload-notification i,
+.content .image-details .upload-notification span {
+    display:inline-block;
+    vertical-align: middle;
+    font-size:14px !important;
+    height:16px;
+    line-height: 16px;
 }
