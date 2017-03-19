@@ -21,5 +21,8 @@
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "pg": "^6.1.4"
-  }
+  },
+  "scripts": {
+    "start": "node app.js"
+}
 }
