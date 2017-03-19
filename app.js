@@ -50,7 +50,7 @@ app.listen(PORT, function(){
 });
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/client/www/placeholder-index.html');
+  res.sendFile(__dirname + '/client/www/index.html');
 });
 
 app.get('/hi', function(req, res) {
@@ -63,8 +63,4 @@ app.get('/testPostPage', function(req, res) {
 
 app.get('/getPostPage', function(req, res) {
 	res.sendFile(__dirname + '/client/www/getPostPage.html');
-});
-
-app.get("/app", function(req, res) {
-    res.sendFile(__dirname + "/client/www/placeholder-index.html");
 });
