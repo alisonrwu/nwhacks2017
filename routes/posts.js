@@ -159,7 +159,7 @@ router.post('/comments', (req, res, next) => {
 router.get('/comments', (req, res, next) => {
   const results = [];
   const id = req.query["post_id"]; // this will be passed in by JS
-  const queryString = "SELECT * FROM comment WHERE post_id = " + id + " ORDER BY time_stamp DESC;";
+  const queryString = "SELECT * FROM comment WHERE post_id = " + id + " ORDER BY id ASC;";
   // Get a Postgres client from the connection pool
     const time_stamp = Math.floor(Date.now() / 1000)
     console.log(time_stamp);
