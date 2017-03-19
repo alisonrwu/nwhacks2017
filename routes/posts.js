@@ -96,8 +96,8 @@ router.post('/comments', (req, res, next) => {
   const results = [];
   // Grab data from http request
   var time_stamp = Math.floor(Date.now() / 1000)
-  const data = {time_stamp:time_stamp, post_id: req.query["post_id"], username: req.query["username"],
-  				content: req.query["content"]}
+  const data = {time_stamp:time_stamp, post_id: req.body["post_id"], username: req.body["username"],
+  				content: req.body["content"]}
 
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
