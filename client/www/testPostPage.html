@@ -4,9 +4,11 @@
     </head>
     <body>
 
-    <form id="postButton" action="/posts" method="post">
-      <input name="username" type="text">
-      <input name="password" type="password">
+    <form id="postButton" action="" method="post">
+      <input id="content" name="content" type="text">
+      <input id="lat" name="lat" type="text">
+      <input id="long" name="long" type="text">
+      <input id="max_life" name="max_life" type="text">
       <input type="submit">Ok</input>
     </form>
 
@@ -14,17 +16,25 @@
 </html>
 
 
+<script
+  src="https://code.jquery.com/jquery-3.2.0.min.js"
+  integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="
+  crossorigin="anonymous">
+</script>
+
 <script>
-$(document).ready(function(){
-    $("#postButton").submit(function(){
+    $("#postButton").on("submit",(function(e){
+        e.preventDefault();
         $.ajax({
-          method: "POST",
           type: "POST",
           url: "/posts",
-          data: data,
-          success: success,
-          dataType: dataType
-        });
-    });
-});
+          data: {content:$('#content').val(),lat:$('#lat').val(),long:$('#long').val(),
+          max_life:$('#max_life').val(), 
+          time_stamp:$('#time_stamp').val()},
+          success: function(data){
+            alert(data);
+            },
+          dataType: "JSON"
+          });
+    }));
 </script>
