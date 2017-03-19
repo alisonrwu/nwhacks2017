@@ -12,7 +12,7 @@ var UI = (function($) {
     }
     
     function setupUI() {
-        $(".menu-button").click(SIDEBAR.open);
+        $(".menu-button").click(function() {history.go(-1);});
         $(".sidebar .fade").click(SIDEBAR.close);
         
         // Update every timestamp every 60 seconds
@@ -50,8 +50,15 @@ var UI = (function($) {
     }
     
     function loadPost_processComments(json) {
-        for(var key in json) {
-            var obj = json[key];
+        var first = true;
+        for(var i = json.length - 1; i >= 0; i--) {
+            var obj = json[i];
+            if(first) {
+                // Update the title of the post to be the first comment
+                $(".header .title").html(obj.content);
+                first = false;
+            }
+            
             DETAILS_VIEW.addComment(obj.post_id, obj.id, obj.time_stamp, DETAILS_VIEW.hashNameToColor(obj.username, obj.post_id), obj.username, obj.content);
         }
     }
@@ -69,7 +76,7 @@ var UI = (function($) {
 
 var DETAILS_VIEW = (function($) {
     function addPost(iPostID, sImageURL) {
-        $(".main .content").append('<div class="post-details" id="post'+iPostID+'">\
+        $(".main .content").append('<div class="detailed-post" id="post'+iPostID+'">\
                     <div class="image" style="background-image:url('+sImageURL+')"></div>\
                     <div class="comments">\
                         <div class="comment-input">\
@@ -114,7 +121,7 @@ var DETAILS_VIEW = (function($) {
         
         $(this).siblings(".text").val("");
         DATABASE.addComment(iPostID, getRandomName(), sCommentText, function(data) {
-            var obj = data[data.length - 1];
+            var obj = data[0];
             addComment(obj.post_id, obj.id, obj.time_stamp, hashNameToColor(obj.username, obj.post_id), obj.username, obj.content);
         });
     }
