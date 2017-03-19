@@ -1,4 +1,19 @@
 var DATABASE = (function($) {
+    function loadMap(nLat, nLon, fCallback) {
+        $.ajax({
+            url:"http://localhost:8080/map",
+            data: {
+                lat:nLat,
+                lon:nLon
+                // radius:nRadius
+            },
+            success:function(data) {
+                fCallback(data);
+            },
+            type:"GET"
+        });
+    }
+
     function loadPosts(nLat, nLon, nRadius, fCallback) {
         $.ajax({
             url:"http://localhost:8080/posts",
@@ -49,6 +64,7 @@ var DATABASE = (function($) {
     
     
     return {
+        loadMap:loadMap,
         loadPosts:loadPosts,
         loadComments:loadComments,
         addComment:addComment
