@@ -41,6 +41,9 @@ app.get('/testPostPage', function(req, res) {
 	res.sendFile(__dirname + '/client/www/testPostPage.html');
 });
 
+app.get('/getPostPage', function(req, res) {
+	res.sendFile(__dirname + '/client/www/getPostPage.html');
+	
 app.get("/app", function(req, res) {
     res.sendFile(__dirname + "/client/www/placeholder-index.html");
 });
