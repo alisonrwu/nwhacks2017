@@ -16,36 +16,48 @@ var UI = (function($) {
         $(".sidebar .fade").click(SIDEBAR.close);
         
         // Update every timestamp every 60 seconds
-        setInterval(LIST_VIEW.updateTimestamps, 1000 * 60);
+        setInterval(DETAILS_VIEW.updateTimestamps, 1000 * 60);
         
-        refreshPosts();
+        var $_GET = {};
+        if(document.location.toString().indexOf('?') !== -1) {
+            var query = document.location
+                           .toString()
+                           // get the query string
+                           .replace(/^.*?\?/, '')
+                           // and remove any existing hash string (thanks, @vrijdenker)
+                           .replace(/#.*$/, '')
+                           .split('&');
+
+            for(var i=0, l=query.length; i<l; i++) {
+               var aux = decodeURIComponent(query[i]).split('=');
+               $_GET[aux[0]] = aux[1];
+            }
+        }
+        
+        loadPost($_GET['post_id']);
     }
     
-    function refreshPosts() {
-        CordovaInterface.getPosition(refreshPosts_getPosition);
+    function loadPost(iPostID) {
+        DATABASE.loadPost(iPostID, loadPost_processPost);
     }
     
-    function refreshPosts_getPosition(position) {
-        DATABASE.loadPosts(position.coords.latitude, position.coords.longitude, 1000, refreshPosts_processPosts);
-    }
-    
-    function refreshPosts_processPosts(json) {
+    function loadPost_processPost(json) {
         for(var key in json) {
             var obj = json[key];
-            LIST_VIEW.addPost(obj.id, "https://www.ryanwirth.ca/misc/nwhacks2017/hotlink-ok/" + obj.content);
-            DATABASE.loadComments(obj.id, refreshPosts_processComments);
+            DETAILS_VIEW.addPost(obj.id, "https://www.ryanwirth.ca/misc/nwhacks2017/hotlink-ok/" + obj.content);
+            DATABASE.loadComments(obj.id, loadPost_processComments);
         }
     }
     
-    function refreshPosts_processComments(json) {
+    function loadPost_processComments(json) {
         for(var key in json) {
             var obj = json[key];
-            LIST_VIEW.addComment(obj.post_id, obj.id, obj.time_stamp, LIST_VIEW.hashNameToColor(obj.username, obj.post_id), obj.username, obj.content);
+            DETAILS_VIEW.addComment(obj.post_id, obj.id, obj.time_stamp, DETAILS_VIEW.hashNameToColor(obj.username, obj.post_id), obj.username, obj.content);
         }
     }
     
     function setupCommentButton(iPostID) {
-        $("#post" + iPostID + " .submit").click(LIST_VIEW.postComment);
+        $("#post" + iPostID + " .submit").click(DETAILS_VIEW.postComment);
     }
     
     return {
@@ -55,9 +67,9 @@ var UI = (function($) {
     }
 })(jQuery);
 
-var LIST_VIEW = (function($) {
+var DETAILS_VIEW = (function($) {
     function addPost(iPostID, sImageURL) {
-        $(".main .content").append('<div class="post" id="post'+iPostID+'">\
+        $(".main .content").append('<div class="post-details" id="post'+iPostID+'">\
                     <div class="image" style="background-image:url('+sImageURL+')"></div>\
                     <div class="comments">\
                         <div class="comment-input">\
@@ -180,4 +192,3 @@ var LIST_VIEW = (function($) {
 $(document).ready(function (e) {
     UI.markjQueryReady();
 });
-
