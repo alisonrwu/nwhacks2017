@@ -88,8 +88,8 @@ router.post('/comments', (req, res, next) => {
   const results = [];
   // Grab data from http request
   var time_stamp = new Date(); 
-  const data = {time_stamp:time_stamp, content: req.body["content"], lat: req.body["lat"],
-  				long: req.body["long"],	max_life: req.body["max_life"]}
+  const data = {time_stamp:time_stamp, post_id: req.body["post_id"], username: req.body["username"],
+  				content: req.body["content"]}
 
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
@@ -106,8 +106,8 @@ router.post('/comments', (req, res, next) => {
 
     console.log(time_stamp);
 
-    client.query('INSERT INTO comment(post_id, time_stamp,username,content,max_life) values($1,$2,$3,$4,$5)',
-    [data.time_stamp, data.content, data.lat, data.long, data.content]);
+    client.query('INSERT INTO comment(post_id, time_stamp,username,content) values($1,$2,$3,$4)',
+    [data.post_id, data.time_stamp, data.username, data.content]);
     // SQL Query > Select Data
     const query = client.query('SELECT * FROM comment ORDER BY id ASC');
     // Stream results back one row at a time

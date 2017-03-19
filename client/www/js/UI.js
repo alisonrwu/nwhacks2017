@@ -90,6 +90,8 @@ var LIST_VIEW = (function($) {
         
         $(this).siblings(".text").val("");
         addComment(iPostID, 100, Date.now(), "FF0000", "Rye", sCommentText);
+        
+        DATABASE.addComment(iPostID, "Rye", sCommentText);
     }
     
     function updateTimestamps() {
