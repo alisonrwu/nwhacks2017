@@ -40,3 +40,7 @@ app.get('/hi', function(req, res) {
 app.get('/testPostPage', function(req, res) {
 	res.sendFile(__dirname + '/client/www/testPostPage.html');
 });
+
+app.get('/getPostPage', function(req, res) {
+	res.sendFile(__dirname + '/client/www/getPostPage.html');
+});

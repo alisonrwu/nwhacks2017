@@ -62,6 +62,13 @@ router.post('/', (req, res, next) => {
 
 router.get('/', (req, res, next) => {
   const results = [];
+  const lat = 0;
+  const long = 0; // this will be replaced by cordova coordinates, sent by JS
+  const radius = 10; // again, this will be sent by JS
+
+  const queryString = "SELECT * FROM post WHERE lat > " + (lat - radius).toString() + " AND lat < " + (lat + radius).toString() + " AND long > " + (long - radius).toString() +
+  " AND long < " + (long + radius).toString() + " ORDER BY id ASC;";
+  console.log(queryString);
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
     // Handle connection errors
@@ -71,7 +78,7 @@ router.get('/', (req, res, next) => {
       return res.status(500).json({success: false, data: err});
     }
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM post ORDER BY id ASC;');
+    const query = client.query(queryString);
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
@@ -83,6 +90,7 @@ router.get('/', (req, res, next) => {
     });
   });
 });
+
 
 router.post('/comments', (req, res, next) => {
   const results = [];
@@ -124,6 +132,8 @@ router.post('/comments', (req, res, next) => {
 
 router.get('/comments', (req, res, next) => {
   const results = [];
+  const id = 228828138969366529; // this will be passed in by JS
+  const queryString = "SELECT * FROM comment WHERE id = " + id + " ORDER BY id ASC;";
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
     // Handle connection errors
@@ -133,7 +143,7 @@ router.get('/comments', (req, res, next) => {
       return res.status(500).json({success: false, data: err});
     }
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM comment WHERE id= ORDER BY id ASC;');
+    const query = client.query(queryString);
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
