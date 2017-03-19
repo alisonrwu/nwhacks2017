@@ -48,7 +48,7 @@ router.post('/', (req, res, next) => {
     client.query('INSERT INTO post(time_stamp, content,lat,long,max_life) values($1,$2,$3,$4,$5)',
     [data.time_stamp, data.content, data.lat, data.lon, data.max_life]);
     // SQL Query > Select Data
-    const query = client.query("SELECT * FROM post WHERE content = '" + data.content + "' ORDER BY id ASC");
+    const query = client.query("SELECT * FROM post WHERE content = '" + data.content + "' ORDER BY time_stamp DESC");
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
@@ -67,7 +67,7 @@ router.get('/', (req, res, next) => {
   const lon = parseInt(req.query["lon"]); // this will be replaced by cordova coordinates, sent by JS
   const radius = parseInt(req.query["radius"]); // again, this will be sent by JS
   const queryString = "SELECT * FROM post WHERE lat > " + (lat - radius).toString() + " AND lat < " + (lat + radius).toString() + " AND long > " + (lon - radius).toString() +
-  " AND long < " + (lon + radius).toString() + " ORDER BY id ASC;";
+  " AND long < " + (lon + radius).toString() + " ORDER BY time_stamp DESC;";
   console.log(queryString);
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
@@ -117,7 +117,7 @@ router.post('/comments', (req, res, next) => {
     client.query('INSERT INTO comment(post_id, time_stamp,username,content) values($1,$2,$3,$4)',
     [data.post_id, data.time_stamp, data.username, data.content]);
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM comment ORDER BY id ASC');
+    const query = client.query('SELECT * FROM comment ORDER BY time_stamp DESC');
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
@@ -133,7 +133,7 @@ router.post('/comments', (req, res, next) => {
 router.get('/comments', (req, res, next) => {
   const results = [];
   const id = req.query["post_id"]; // this will be passed in by JS
-  const queryString = "SELECT * FROM comment WHERE post_id = " + id + " ORDER BY id ASC;";
+  const queryString = "SELECT * FROM comment WHERE post_id = " + id + " ORDER BY time_stamp DESC;";
   // Get a Postgres client from the connection pool
     const time_stamp = Math.floor(Date.now() / 1000)
     console.log(time_stamp);
