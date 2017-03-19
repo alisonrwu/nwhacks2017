@@ -25,12 +25,12 @@ router.get('/', function(req, res){
 		// Handle connection errors
 		if(err) {
 			console.log('connection error ?');
-		  done();
-		  console.log(err);
-		  return res.status(500).json({success: false, data: err});
+			done();
+			console.log(err);
+			return res.status(500).json({success: false, data: err});
 		}
 		// SQL Query > Select Data
-		const query = client.query('SELECT * FROM post ORDER BY id;');
+		const query = client.query('SELECT * FROM post ORDER BY id ASC;');
 		// Stream results back one row at a time
 		query.on('row', (row) => {
 		  results.push(row);
@@ -43,9 +43,9 @@ router.get('/', function(req, res){
 
 		query.on('error', function(err) {
 			console.log('query error ?');
-          console.log(err);
-          res.status(500).json({ success: false, data: err});
-          done();
+			console.log(err);
+			res.status(500).json({ success: false, data: err});
+			done();
     	});
 	});
 });
