@@ -10,7 +10,7 @@ var posts = require('./routes/posts');
 var map = require('./routes/map');
 
 
-var PORT = 26527;
+var PORT = 8080;
 
 // Add headers
 app.use(function (req, res, next) {
@@ -35,7 +35,7 @@ app.use(function (req, res, next) {
 app.use('/posts', posts);
 app.use('/map', map);
 
-app.listen(PORT, function(){
+app.listen(process.env.PORT || PORT, function(){
     console.log(__dirname);
 });
 
