@@ -89,7 +89,7 @@ var UI = (function($) {
                // Added, now add top level comment
                 var obj = data[0];
                 var id = obj.id;
-                DATABASE.addComment(id, "TestUsername", comment, function(final) {
+                DATABASE.addComment(id, "Original Poster", comment, function(final) {
                     displayNotification("check", "Success!");
                 });
             });
