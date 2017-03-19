@@ -25,7 +25,7 @@ router.post('/', function(req, res) {
 router.post('/', (req, res, next) => {
   const results = [];
   // Grab data from http request
-  var time_stamp = new Date();
+  const time_stamp = 0;
   const data = {time_stamp:time_stamp, content: req.query["content"], lat: req.query["lat"],
   				lon: req.query["long"],	max_life: req.query["max_life"]}
 
