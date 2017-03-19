@@ -63,9 +63,9 @@ router.post('/', (req, res, next) => {
 
 router.get('/', (req, res, next) => {
   const results = [];
-  const lat = req.query["lat"];
-  const lon = req.query["lon"]; // this will be replaced by cordova coordinates, sent by JS
-  const radius = req.query["radius"]; // again, this will be sent by JS
+  const lat = parseInt(req.query["lat"]);
+  const lon = parseInt(req.query["lon"]); // this will be replaced by cordova coordinates, sent by JS
+  const radius = parseInt(req.query["radius"]); // again, this will be sent by JS
   const queryString = "SELECT * FROM post WHERE lat > " + (lat - radius).toString() + " AND lat < " + (lat + radius).toString() + " AND long > " + (lon - radius).toString() +
   " AND long < " + (lon + radius).toString() + " ORDER BY id ASC;";
   console.log(queryString);
