@@ -309,8 +309,8 @@ body {
     width:64px;
     height:64px;
     background-color:#03A9F4;
-    margin-bottom:64px;
-    margin-right:64px;
+    margin-bottom:10px;
+    margin-right:10px;
     border-radius:32px;
     box-shadow:0px 2px 8px #666;
 }
@@ -322,8 +322,31 @@ body {
 
 .content .image-selector {
     margin:10px auto;
-    width:calc(100% - 20px);
+    width:100%;
     max-width:480px;
     height:240px;
-    background-color:#FFF;
+    color:#FFF;
+    border-radius:4px;
+    background-image:url("../img/default.jpeg");
+    background-size:cover;
+}
+
+.content .image-selector .image-selector-half {
+    cursor:pointer;
+    height:100%;
+    width:calc(50% - 2px);
+    text-align:center;
+    text-shadow: 0px 1px 4px #000;
+    display:inline-block;
+}
+
+.content .image-selector .image-selector-half span {
+    position:relative;
+    top:50%;
+    transform:translateY(-50%);
+}
+
+.content .image-selector .image-selector-half:hover,
+.content .image-selector .image-selector-half:active {
+    font-family:Roboto-Bold, sans-serif;
 }

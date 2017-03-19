@@ -13,7 +13,7 @@
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.nwhacks2017.geopost"
         },
-        "cordova-plugin-imagepicker": {
+        "cordova-plugin-camera": {
             "PACKAGE_NAME": "com.nwhacks2017.geopost"
         }
     },

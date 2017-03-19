@@ -16,20 +16,26 @@ var UI = (function($) {
         $(".sidebar .fade").click(SIDEBAR.close);
         
         //alert("ready.");
-        $(".image-selector").click(selectImage);
+        $("#take-photo").click(takePhoto);
+        $("#choose-photo").click(choosePhoto);
     }
     
-    function selectImage() {
-        alert("Selecting");
-        window.imagePicker.getPictures(
-            function(results) {
-                for (var i = 0; i < results.length; i++) {
-                    alert('Image URI: ' + results[i]);
-                }
-            }, function (error) {
-                alert('Error: ' + error);
-            }
-        );
+    function takePhoto() {
+        navigator.camera.getPicture(selectImage_success, selectImage_failure, { quality: 100, destinationType: Camera.DestinationType.FILE_URI, sourceType:Camera.PictureSourceType.CAMERA});
+    }
+    
+    function choosePhoto() {
+        navigator.camera.getPicture(selectImage_success, selectImage_failure, {quality:100, destinationType:Camera.DestinationType.FILE_URI, sourceType:Camera.PictureSourceType.PHOTOLIBRARY});
+    }
+    
+    function selectImage_success(imageURI) {
+        alert(imageURI);
+        $(".image-selector").css("background-image", "url('"+imageURI+"')");
+        $("#test").attr("src", imageURI);
+    }
+    
+    function selectImage_failure(message) {
+        alert(message);
     }
     
     return {
