@@ -4,14 +4,23 @@ var UI = (function($) {
         $(".menu-button").click(SIDEBAR.open);
         $(".sidebar .fade").click(SIDEBAR.close);
         
+        // Add a dummy post
         LIST_VIEW.addPost(1, "img/post1.jpeg");
-        LIST_VIEW.addComment(1, 1, 1000,  "FF6600", "Original Poster", "This is a dynamically added comment!");
-        LIST_VIEW.addComment(1, 2, 1000, "00FF00", "Terb", "Wow, jQuery is so cool!");
-        LIST_VIEW.addComment(1, 3, 1000, "0000FF", "Random Alpaca", "Why am I here?");
+        LIST_VIEW.addComment(1, 1, 1489906437381,  "FF6600", "Original Poster", "This is a dynamically added comment!");
+        LIST_VIEW.addComment(1, 2, 1489906439381, "00FF00", "Terb", "Wow, jQuery is so cool!");
+        LIST_VIEW.addComment(1, 3, 1489906438381, "0000FF", "Random Alpaca", "Why am I here?");
+        
+        // Update every timestamp every 60 seconds
+        setInterval(LIST_VIEW.updateTimestamps, 1000 * 60);
+    }
+    
+    function setupCommentButton(iPostID) {
+        $("#post" + iPostID + " .submit").click(LIST_VIEW.postComment);
     }
     
     return {
-        setupUI:setupUI
+        setupUI:setupUI,
+        setupCommentButton:setupCommentButton
     }
 })(jQuery);
 
@@ -41,25 +50,27 @@ var LIST_VIEW = (function($) {
                     <div class="image" style="background-image:url('+sImageURL+')"></div>\
                     <div class="comments">\
                         <div class="comment-input">\
-                            <input type="text" placeholder="Add a comment..." />\
-                            <div class="submit">\
+                            <input class="text" type="text" placeholder="Add a comment..." maxlength="140" />\
+                            <div class="submit" data-id="'+iPostID+'">\
                                     <i class="material-icons">send</i>\
                             </div>\
                         </div>\
                     </div>\
                 </div>');
+        
+        UI.setupCommentButton(iPostID);
     }
     
-    function addComment(iPostID, iCommentID, nTimestamp, hColor, sName, sText) {
-        $('<div class="comment" id="comment'+iCommentID+'">\
+    function addComment(iPostID, iCommentID, nMillisecondsSinceEpoch, hColor, sName, sText) {
+        $('<div class="comment" data-id="'+iCommentID+'" id="comment'+iCommentID+'">\
                 <div class="details">\
                     <div class="username">\
                         <i class="color" style="background-color:#'+hColor+'"></i>\
                         <span>'+sName+'</span>\
                     </div>\
-                    <div class="timestamp" data-time="'+nTimestamp+'">\
+                    <div class="timestamp" data-time="'+nMillisecondsSinceEpoch+'">\
                         <i class="material-icons">access_time</i>\
-                        <span>3 min ago</span>\
+                        <span>0 sec ago</span>\
                     </div>\
                 </div>\
                 <div class="text">\
@@ -67,18 +78,53 @@ var LIST_VIEW = (function($) {
                 </div>\
             </div>\
             <div class="divider"></div>').insertBefore("#post" + iPostID + " .comment-input");
+        
+        updateTimestamps();
+    }
+    
+    function postComment() {
+        var sCommentText = $(this).siblings(".text").val().trim()
+        var iPostID = parseInt($(this).data("id"));
+        if(sCommentText.length == 0) return;
+        else if(sCommentText.length > 140) sCommentText = sCommentText.substr(0, 140);
+        
+        $(this).siblings(".text").val("");
+        addComment(iPostID, 100, Date.now(), "FF0000", "Rye", sCommentText);
     }
     
     function updateTimestamps() {
-        $(".comment").each(function() {
-            alert($(this).children(".timestamp").data("time"));
+        var nCurrentMillisecondsSinceEpoch = Date.now();
+        $(".comment .timestamp").each(function() {
+            var nTime = parseInt($(this).data("time"));
+            var nDiff = nCurrentMillisecondsSinceEpoch - nTime;
+            var sText = 0;
+            var nSeconds = nDiff / 1000;
+            if(nSeconds < 60) {
+                if(nSeconds < 30) sText = "just now";
+                else sText = Math.floor(nSeconds) + " sec ago";
+            } else {
+                var nMinutes = nSeconds / 60;
+                if(nMinutes < 60) sText = Math.floor(nMinutes) + " min ago";
+                else {
+                    var nHours = nMinutes / 60;
+                    if(nHours < 24) sText = Math.floor(nHours) + " hour" + (Math.floor(nHours) != 1 ? "s" : "") + " ago";
+                    else {
+                        var nDays = nHours / 24;
+                        sText = Math.floor(nDays) + " day" + (Math.floor(nDays) != 1 ? "s" : "") + " ago";
+                    }
+                }
+            }
+            
+            $(this).children("span").html(sText);
         })
     }
     
     
     return {
         addPost:addPost,
-        addComment:addComment
+        addComment:addComment,
+        postComment:postComment,
+        updateTimestamps:updateTimestamps
     }
 })(jQuery);
 
