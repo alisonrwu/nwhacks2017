@@ -30,6 +30,7 @@ router.get('/', function(req, res){
 		}
 		// SQL Query > Select Data
 		const query = client.query('SELECT lat,long,id,content FROM post;');
+
 		// Stream results back one row at a time
 		results.push({'lat': lat, 'long': long}); //for current location
 		query.on('row', (row) => {

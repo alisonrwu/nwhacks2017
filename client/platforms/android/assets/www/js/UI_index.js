@@ -23,23 +23,35 @@ var UI = (function($) {
     
     function refreshPosts() {
         CordovaInterface.getPosition(refreshPosts_getPosition);
+        // also get the radius from settings
     }
     
+    var lastLatitude = 0;
+    var lastLongitude = 0;
     function refreshPosts_getPosition(position) {
-        DATABASE.loadPosts(position.coords.latitude, position.coords.longitude, 1000, refreshPosts_processPosts);
+        lastLatitude = position.coords.latitude;
+        lastLongitude = position.coords.longitude;
+        DATABASE.loadPosts(position.coords.latitude, position.coords.longitude, 1, refreshPosts_processPosts);
     }
     
     function refreshPosts_processPosts(json) {
+        // Remove the loading spinner
+        $(".main .content").empty();
+        
         for(var key in json) {
             var obj = json[key];
             LIST_VIEW.addPost(obj.id, "https://www.ryanwirth.ca/misc/nwhacks2017/hotlink-ok/" + obj.content);
             DATABASE.loadComments(obj.id, refreshPosts_processComments);
         }
+        
+        if(json.length == 0) {
+            $(".content").append("<div class='loading'>Hmm... There don't seem to be any posts here!</div>");
+        }
     }
     
     function refreshPosts_processComments(json) {
-        for(var key in json) {
-            var obj = json[key];
+        for(var i = json.length - 1; i >=0; i--) {
+            var obj = json[i];
             LIST_VIEW.addComment(obj.post_id, obj.id, obj.time_stamp, LIST_VIEW.hashNameToColor(obj.username, obj.post_id), obj.username, obj.content);
         }
     }

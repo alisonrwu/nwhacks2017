@@ -60,6 +60,10 @@ body {
     -webkit-tap-highlight-color: transparent;
 }
 
+a, a:visited, a:hover, a:active {
+    text-decoration: none;
+}
+
 .divider {
     padding:0px 10px;
     width:calc(100% - 20px);
@@ -412,6 +416,13 @@ body {
     font-size:14px !important;
     height:16px;
     line-height: 16px;
+}
+
+.content .loading {
+    width:240px;
+    height:240px;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 .spacer {

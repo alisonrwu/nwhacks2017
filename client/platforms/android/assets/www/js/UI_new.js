@@ -14,7 +14,11 @@ var UI = (function($) {
     var photoSelected = false;
     var uploading = false;
     var comment = "";
+    var fileSelector;
     function setupUI() {
+        fileSelector = $('<input type="file">');
+        fileSelector.on("change", choosePhoto_fallback);
+        
         $(".menu-button").click(SIDEBAR.open);
         $(".sidebar .fade").click(SIDEBAR.close);
         
@@ -72,12 +76,13 @@ var UI = (function($) {
         displayNotification("access_time", "Uploading, please wait...");
         uploading = true;
         
-        DATABASE.uploadImage($(".background").attr("src"), mimeType, submitPost_success);
+        if(navigator.camera) DATABASE.uploadImage($(".background").attr("src"), mimeType, submitPost_success);
+        else DATABASE.uploadImage_fallback(fileSelector, submitPost_success);
     }
     
     function submitPost_success(data) {
         // Get the image name
-        var obj = JSON.parse(data.response);
+        var obj = !data.hasOwnProperty("response") ? data : JSON.parse(data.response);
         var imageName = obj.url;
         
         submitPost_cockroach(imageName);
@@ -85,7 +90,7 @@ var UI = (function($) {
     
     function submitPost_cockroach(imageName) {
         CordovaInterface.getPosition(function(position) {
-            DATABASE.addPost(position.coords.latitude, position.coords.longitude, imageName, 5, function(data) {
+            DATABASE.addPost(position.coords.latitude, position.coords.longitude, imageName, 60 * 60, function(data) {
                // Added, now add top level comment
                 var obj = data[0];
                 var id = obj.id;
@@ -107,13 +112,39 @@ var UI = (function($) {
     function takePhoto() {
         if(uploading) return;
         
+        if(!navigator.camera) {
+            alert("Taking photos is currently not supported on this platform!");
+            return;
+        }
+        
         navigator.camera.getPicture(selectImage_success, selectImage_failure, { quality: 50, destinationType: Camera.DestinationType.FILE_URI, sourceType:Camera.PictureSourceType.CAMERA});
     }
     
     function choosePhoto() {
         if(uploading) return;
         
+        if(!navigator.camera) {
+            // Open the fileSelector
+            fileSelector.click();
+            return;
+        }
+        
         navigator.camera.getPicture(selectImage_success, selectImage_failure, {quality:75, destinationType:Camera.DestinationType.FILE_URI, sourceType:Camera.PictureSourceType.PHOTOLIBRARY});
+    }
+    
+    function choosePhoto_fallback(data) {
+        if(!data) return;
+        
+        var files = data.target.files;
+        $.each(files, function(i, file){
+           var reader = new FileReader();
+
+           reader.onload = function(e) {
+                selectImage_success(e.target.result);
+            };
+
+            reader.readAsDataURL(file);
+        });
     }
     
     function selectImage_success(imageURI) {
