@@ -65,9 +65,11 @@ router.get('/', (req, res, next) => {
   const results = [];
   const lat = parseInt(req.query["lat"]);
   const lon = parseInt(req.query["lon"]); // this will be replaced by cordova coordinates, sent by JS
-  const radius = parseInt(req.query["radius"]); // again, this will be sent by JS
+  const radius = parseFloat(req.query["radius"]); // again, this will be sent by JS
   const queryString = "SELECT * FROM post WHERE lat > " + (lat - radius).toString() + " AND lat < " + (lat + radius).toString() + " AND long > " + (long - radius).toString() +
-  " AND long < " + (long + radius).toString() + " AND " + (time_stamp + max_life - Math.floor(Date.now() / 1000)).toString + (time_stamp ) + " > 0" + " ORDER BY time_stamp DESC;";
+  " AND long < " + (long + radius).toString() + " AND " + (time_stamp + max_life - Math.floor(Date.now() / 1000)).toString() + " > 0" + " ORDER BY time_stamp DESC;";
+console.log(queryString);
+console.log(Math.floor(Date.now() / 1000);
 
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
