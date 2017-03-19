@@ -34,23 +34,40 @@ var UI = (function($) {
     }
     
     function refreshMap_processLocations(json) {
+        for(var key in json[0]){
+            json[0][key]=parseFloat(json[0][key]);
+        }
         for(var obj of json){
             var longValue = obj['long'];
             delete obj['long'];
             obj.lng = longValue;
         }
+        // console.log(json);
 
         var locations = json;
         var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 4,
+            zoom: 20,
             center: locations[0]
         });
 
+        var circle = new google.maps.Circle({
+            strokeColor: '#00ff00',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#00ff00',
+            fillOpacity: 0.35,
+            map: map,
+            center: locations[0],
+            radius: 10
+        })
+
         for(var loc of locations){
-            var marker = new google.maps.Marker({
-                position: loc,
-                map: map
-            });
+            if(loc != json[0]){
+                var marker = new google.maps.Marker({
+                    position: loc,
+                    map: map
+                });
+            }
         }
     }
     
