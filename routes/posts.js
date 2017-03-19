@@ -66,9 +66,9 @@ router.get('/', (req, res, next) => {
   const lat = parseInt(req.query["lat"]);
   const lon = parseInt(req.query["lon"]); // this will be replaced by cordova coordinates, sent by JS
   const radius = parseInt(req.query["radius"]); // again, this will be sent by JS
-  const queryString = "SELECT * FROM post WHERE lat > " + (lat - radius).toString() + " AND lat < " + (lat + radius).toString() + " AND long > " + (lon - radius).toString() +
-  " AND long < " + (lon + radius).toString() + " ORDER BY time_stamp DESC;";
-  console.log(queryString);
+  const queryString = "SELECT * FROM post WHERE lat > " + (lat - radius).toString() + " AND lat < " + (lat + radius).toString() + " AND long > " + (long - radius).toString() +
+  " AND long < " + (long + radius).toString() + " AND " + (time_stamp + max_life - Math.floor(Date.now() / 1000)).toString + (time_stamp ) + " > 0" + " ORDER BY time_stamp DESC;";
+
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
     // Handle connection errors
@@ -91,32 +91,6 @@ router.get('/', (req, res, next) => {
   });
 });
 
-router.get('/details', (req, res, next) => {
-  const results = [];
-  const post_id = req.query["post_id"];
-
-  const queryString = "SELECT * from post WHERE id= " + post_id + " LIMIT 1";
-  // Get a Postgres client from the connection pool
-  pg.connect(config, (err, client, done) => {
-    // Handle connection errors
-    if(err) {
-      done();
-      console.log(err);
-      return res.status(500).json({success: false, data: err});
-    }
-    // SQL Query > Select Data
-    const query = client.query(queryString);
-    // Stream results back one row at a time
-    query.on('row', (row) => {
-      results.push(row);
-    });
-    // After all data is returned, close connection and return results
-    query.on('end', () => {
-      done();
-      return res.json(results);
-    });
-  });
-});
 
 router.post('/comments', (req, res, next) => {
   const results = [];
@@ -143,7 +117,7 @@ router.post('/comments', (req, res, next) => {
     client.query('INSERT INTO comment(post_id, time_stamp,username,content) values($1,$2,$3,$4)',
     [data.post_id, data.time_stamp, data.username, data.content]);
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM comment ORDER BY time_stamp DESC LIMIT 1');
+    const query = client.query('SELECT * FROM comment ORDER BY time_stamp DESC');
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
@@ -159,7 +133,7 @@ router.post('/comments', (req, res, next) => {
 router.get('/comments', (req, res, next) => {
   const results = [];
   const id = req.query["post_id"]; // this will be passed in by JS
-  const queryString = "SELECT * FROM comment WHERE post_id = " + id + " ORDER BY id ASC;";
+  const queryString = "SELECT * FROM comment WHERE post_id = " + id + " ORDER BY time_stamp DESC;";
   // Get a Postgres client from the connection pool
     const time_stamp = Math.floor(Date.now() / 1000)
     console.log(time_stamp);
