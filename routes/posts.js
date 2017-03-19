@@ -48,7 +48,7 @@ router.post('/', (req, res, next) => {
     client.query('INSERT INTO post(time_stamp, content,lat,long,max_life) values($1,$2,$3,$4,$5)',
     [data.time_stamp, data.content, data.lat, data.lon, data.max_life]);
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM post ORDER BY id ASC');
+    const query = client.query("SELECT * FROM post WHERE content = '" + data.content + "' ORDER BY id ASC");
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
