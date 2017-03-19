@@ -1,4 +1,4 @@
-var UI = (function($) {
+var settings = (function($) {
 	var MAX_RADIUS = 1000; // this is the default
     var cordovaReady = false;
     var jQueryReady = false;
@@ -13,11 +13,13 @@ var UI = (function($) {
     }
     
     function setupUI() {
-    	"#submitButton".on("click", function() {
-		MAX_RADIUS = document.getElementsByName('maxradius').value();
-		console.log(MAX_RADIUS);
-		})
-    }
+     $("#submitButton").on("click", (function(){
+        console.log("click worked");
+        MAX_RADIUS = document.getElementsByName('maxradius').value();
+        console.log(MAX_RADIUS);
+        }))
+    })
+}}
 
     function getMaxRadius() {
 	return MAX_RADIUS;
