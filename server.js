@@ -11,7 +11,7 @@ var map = require('./routes/map');
 var cors = require('cors');
 
 // cors stuff
-app.use(cors({origin: null}));
+app.use(cors({origin: "null"}));
 
 
 var PORT = 8080;
