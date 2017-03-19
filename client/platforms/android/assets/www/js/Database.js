@@ -15,14 +15,30 @@ var DATABASE = (function($) {
         });
     }
     
+    var loadingComments = false;
+    var loadCommentsQueue = new Array();
     function loadComments(iPostID, fCallback) {
+        loadCommentsQueue.push([iPostID, fCallback]);
+        loadComments_next();
+    }
+    
+    function loadComments_next() {
+        if(loadingComments) return;
+        if(loadCommentsQueue.length == 0) return;
+        
+        var nextComments = loadCommentsQueue[0];
+        loadCommentsQueue.splice(0, 1);
+        loadingComments = true;
+        
         $.ajax({
            url: host + 'posts/comments',
            data: {
-              post_id:iPostID
+              post_id:nextComments[0]
            },
            success: function(data) {
-               fCallback(data);
+               loadingComments = false;
+               nextComments[1](data); // call callback
+               loadComments_next();
            },
            type: 'GET'
         });
