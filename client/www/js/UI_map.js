@@ -61,25 +61,28 @@ var UI = (function($) {
             radius: 15
         });
 
-        var marker, info;
+        // var marker, info;
         for(var loc of locations){
             if(loc != json[0]){
-                marker = new google.maps.Marker({
+                var marker = new google.maps.Marker({
                     position: loc,
                     // animation: google.maps.Animation.DROP,
                     map: map
                 });
-                info = new google.maps.InfoWindow({
-                    content: "hi"
+                var icontent = 'hi';
+                var prop = 'content';
+                // if(loc.prop){
+                //     icontent = loc.content.substring(0, loc.content.length-3);
+                //     // icontent = '<div class="image" style="background-image:url('+"https://www.ryanwirth.ca/misc/nwhacks2017/hotlink-ok/"+loc.content+')"></div>';
+                // } else
+                //     icontent = 'hello';
+                // }
+                var infowindow = new google.maps.InfoWindow({
+                    content: icontent
                 });
-                marker.addListener('click', function(){
-                    info.open(map, marker);
-                    // map.setZoom(20);
-                    // map.setCenter(marker.getPosition());
+                marker.addListener('click', function() {
+                    infowindow.open(map, this);
                 });
-                // google.maps.event.addListener(marker, 'click', function(){
-                //     info.open(map, marker);
-                // });
             }
         }
     }
