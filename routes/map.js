@@ -16,12 +16,10 @@ var config = {
 router.get('/', function(req, res){
     // res.send('GET handler for /map route.');
     // res.sendFile(path.join(__dirname, '../client/www/maptest.html'));
-	console.log('trying to get...');
 
     const results = [];
 	// Get a Postgres client from the connection pool
 	pg.connect(config, (err, client, done) => {
-		console.log(client);
 		// Handle connection errors
 		if(err) {
 			console.log('connection error ?');
@@ -30,15 +28,15 @@ router.get('/', function(req, res){
 			return res.status(500).json({success: false, data: err});
 		}
 		// SQL Query > Select Data
-		const query = client.query('SELECT * FROM post ORDER BY id ASC;');
+		const query = client.query('SELECT lat,long FROM post ORDER BY id ASC;');
 		// Stream results back one row at a time
 		query.on('row', (row) => {
-		  results.push(row);
+			results.push(row);
 		});
 		// After all data is returned, close connection and return results
 		query.on('end', () => {
-		  done();
-		  return res.json(results);
+			done();
+			return res.json(results);
 		});
 
 		query.on('error', function(err) {
