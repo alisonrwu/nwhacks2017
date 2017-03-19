@@ -7,14 +7,14 @@
     <feature name="Geolocation">
         <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
     </feature>
-    <name>HelloCordova</name>
+    <name>CacheRoom</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        An application created in 24 hours for nwHacks 2017.
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="ryan@ryanwirth.ca" href="http://www.ryanwirth.ca">
+        Ryan Wirth
     </author>
-    <content src="index.html" />
+    <content src="placeholder-index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />

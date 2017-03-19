@@ -1,0 +1,299 @@
+@font-face {
+    font-family: Roboto;
+    src: url(../fonts/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: Roboto-Bold;
+    src: url(../fonts/Roboto-Bold.ttf);
+}
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'),
+       local('MaterialIcons-Regular'),
+       url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
+       url(../fonts/MaterialIcons-Regular.woff) format('woff'),
+       url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+/* START APP CSS */
+
+body {
+    margin:0;
+    padding:0;
+    font-family: Roboto, sans-serif;
+    color:#363636;
+    width:100%;
+    height:100%;
+    overflow-x:hidden;
+    cursor:default;
+    background-color:#EEE;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.divider {
+    padding:0px 10px;
+    width:calc(100% - 20px);
+    height:1px;
+    background-color:#DDD;
+    border-bottom:1px solid #FFF;
+}
+
+/** Sidebar modal window **/
+.sidebar {
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    display:none;
+    z-index:1000;
+}
+
+.sidebar .content {
+    position:absolute;
+    color:#363636;
+    width:256px;
+    margin-left:-256px;
+    height:100%;
+    left:0;
+    top:0;
+    background-color:#FFF;
+    z-index:1001;
+    box-shadow:0px 0px 16px #000;
+}
+
+.sidebar .content .title {
+    margin:0px 16px;
+}
+
+.sidebar .content .title i, .sidebar .content .title span {
+    display:inline-block;
+    vertical-align: middle;
+    font-size:18px;
+    height:64px;
+    line-height:64px;
+}
+
+.sidebar .content div i {
+    width:32px;
+    font-size:24px !important;
+}
+
+.sidebar .content .tab {
+    height:48px;
+    padding-left:16px;
+    color:#363636;
+}
+
+.sidebar .content .tab-active, 
+.sidebar .content .tab:hover, 
+.sidebar .content .tab:active {
+    background-color:#03A9F4;
+    color:#FFF;
+}
+
+.sidebar .content .tab i, .sidebar .content .tab span {
+    display:inline-block;
+    vertical-align: middle;
+    font-size:14px;
+    height:48px;
+    line-height:48px;
+}
+
+.sidebar .fade {
+    position:absolute;
+    width:100%;
+    height:100%;
+    opacity:0.25;
+    background-color:#000;
+}
+
+/** Main page content **/
+.main {
+    
+}
+
+.main .header {
+    color:#FFF;
+    width:100%;
+    height:64px;
+    background-color:#03A9F4;
+    padding:0px 4px;
+    box-shadow:0px 0px 16px 0px #000;
+    position:fixed;
+    z-index: 100;
+}
+
+.main .header div {
+    float:left;
+    line-height:64px;
+    height:64px;
+    min-width:64px;
+}
+
+.main .header .menu-button {
+    text-align:center;
+    padding-top:6px;
+}
+
+.main .header .title {
+    font-size:18px;
+}
+
+.main .content {
+    padding-top:64px;
+    padding-left:10px;
+    padding-right:10px;
+}
+
+.main .content .post {
+    margin:10px auto;
+    max-width:480px;
+    min-height:100px;
+    border-radius:4px;
+    background-color:#F4F4F4;
+    overflow:hidden;
+    box-shadow:0px 2px 4px #BBB;
+}
+
+.main .content .post .image {
+    width:100%;
+    height:200px;
+    background-size:cover;
+}
+
+.comments {
+    padding:0px 10px;
+}
+
+.comments .comment {
+    padding:10px 0px;
+}
+
+.comments .comment .details {
+    position:relative;
+    height:16px;
+    line-height:16px;
+}
+
+.comments .comment .details div {
+    height:16px;
+    line-height:16px;
+    font-size:10px;
+    color:#BBB;
+    position:absolute;
+}
+
+.comments .comment .details .username {
+    left:0;
+    height:16px;
+    line-height: 16px;
+}
+
+.comments .comment .details .username i {
+    display:inline-block;
+    vertical-align: middle;
+    width:8px;
+    height:8px;
+    border-radius:4px;
+}
+
+.comments .comment .details .username span {
+    display:inline-block;
+    vertical-align: middle;
+}
+
+.comments .comment .details .timestamp {
+    right:0;
+}
+
+.comments .comment .details .timestamp i, .comments .comment .details .timestamp span {
+    display:inline-block;
+    vertical-align: middle;
+    font-size:10px !important;
+    height:16px;
+    line-height: 16px;
+}
+
+.comments .comment .text {
+    font-size:14px;
+    color:#555;
+}
+
+.comments .comments-hidden {
+    text-align:center;
+    font-size:10px;
+    color:#BBB;
+    height:24px;
+    line-height:24px;
+}
+
+.comments .comment-input {
+    padding:10px 0px;
+}
+
+.comments .comment-input input[type="text"] {
+    display:inline-block;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    color:#555;
+    padding:8px;
+    width: calc(100% - 64px);
+    border:1px solid #FFF;
+    border-radius: 4px;
+}
+
+.comments .comment-input input[type="text"]:focus {
+    outline:none;
+    box-shadow:0px 0px 4px 0px #BBB;
+}
+
+.comments .comment-input .submit {
+    float:right;
+    cursor:pointer;
+    color:#BBB;
+    height:34px;
+    width:34px;
+    position:relative;
+}
+
+.comments .comment-input .submit i {
+    padding-top:5px;
+    position:absolute;
+}
+
+.comments .comment-input .submit:hover, .comments .comment-input .submit:active {
+    color:#666;
+}

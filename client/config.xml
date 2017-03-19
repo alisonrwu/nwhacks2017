@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.nwhacks2017.geopost" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>HelloCordova</name>
+    <name>CacheRoom</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        An application created in 24 hours for nwHacks 2017.
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="ryan@ryanwirth.ca" href="http://www.ryanwirth.ca">
+        Ryan Wirth
     </author>
-    <content src="index.html" />
+    <content src="placeholder-index.html" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
     <allow-intent href="http://*/*" />

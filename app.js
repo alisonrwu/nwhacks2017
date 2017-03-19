@@ -30,7 +30,7 @@ app.listen(PORT, function(){
 });
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/client/www/index.html');
+  res.sendFile(__dirname + '/client/www/placeholder-index.html');
 });
 
 app.get('/hi', function(req, res) {
