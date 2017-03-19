@@ -25,6 +25,7 @@ router.post('/', function(req, res) {
 router.post('/', (req, res, next) => {
   const results = [];
   // Grab data from http request
+  console.log(req);
   const time_stamp = Math.floor(Date.now() / 1000)
   const data = {time_stamp:time_stamp, content: req.body["content"], lat: req.body["lat"],
   				lon: req.body["long"],	max_life: req.body["max_life"]}
@@ -65,7 +66,6 @@ router.get('/', (req, res, next) => {
   const lat = req.query["lat"];
   const lon = req.query["lon"]; // this will be replaced by cordova coordinates, sent by JS
   const radius = req.query["radius"]; // again, this will be sent by JS
-console.log(req);
   const queryString = "SELECT * FROM post WHERE lat > " + (lat - radius).toString() + " AND lat < " + (lat + radius).toString() + " AND long > " + (lon - radius).toString() +
   " AND long < " + (lon + radius).toString() + " ORDER BY id ASC;";
   console.log(queryString);
@@ -82,7 +82,7 @@ console.log(req);
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
-    });
+);
     // After all data is returned, close connection and return results
     query.on('end', () => {
       done();
