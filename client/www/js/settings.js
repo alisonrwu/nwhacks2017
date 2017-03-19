@@ -13,11 +13,15 @@ var UI = (function($) {
     }
     
     function setupUI() {
-    	"#submitButton".on("click", function() {
-		MAX_RADIUS = document.getElementsByName('maxradius').value();
-		console.log(MAX_RADIUS);
-		})
-    }
+        $(document).ready(function(){
+    console.log("document is ready");
+    $("#submitButton").on("click", (function(){
+        console.log("click worked");
+        MAX_RADIUS = document.getElementsByName('maxradius').value();
+        console.log(MAX_RADIUS);
+        }))
+    })
+}}
 
     function getMaxRadius() {
 	return MAX_RADIUS;
