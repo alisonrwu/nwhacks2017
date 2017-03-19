@@ -15,7 +15,7 @@ var UI = (function($) {
     function setupUI() {
     	"#submitButton".on("click", function() {
 		MAX_RADIUS = document.getElementsByName('maxradius').value();
-		alert(MAX_RADIUS);
+		console.log(MAX_RADIUS);
 		})
     }
 
