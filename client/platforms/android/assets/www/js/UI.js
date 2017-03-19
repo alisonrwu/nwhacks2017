@@ -24,19 +24,11 @@ var UI = (function($) {
         // Update every timestamp every 60 seconds
         setInterval(LIST_VIEW.updateTimestamps, 1000 * 60);
         
-        refreshPosts();
+        CordovaInterface.getPosition(getPos);
     }
     
-    function refreshPosts() {
-        CordovaInterface.getPosition(refreshPosts_getPosition);
-    }
-    
-    function refreshPosts_getPosition(position) {
-        DATABASE.loadPosts(position.coords.latitude, position.coords.longitude, 1000, refreshPosts_processPosts);
-    }
-    
-    function refreshPosts_processPosts(json) {
-        alert(json);
+    function getPos(pos) {
+        alert(pos.coords.longitude + ", " + pos.coords.latitude + ", " + pos.coords.accuracy);
     }
     
     function setupCommentButton(iPostID) {

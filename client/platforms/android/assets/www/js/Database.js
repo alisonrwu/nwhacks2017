@@ -1,9 +1,6 @@
 var DATABASE = (function($) {
     function loadPosts(nLat, nLon, nRadius, fCallback) {
-        $.ajax({
-            url:"http://localhost:8080/posts",
         
-        })
     }
     
     function loadComments(iPostID) {

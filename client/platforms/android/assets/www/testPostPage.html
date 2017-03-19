@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>Test Post Button</title>
+    </head>
+    <body>
+
+    <form id="postButton" action="" method="post">
+      <input id="content" name="content" type="text">
+      <input id="lat" name="lat" type="text">
+      <input id="long" name="long" type="text">
+      <input id="max_life" name="max_life" type="text">
+      <input type="submit">Ok</input>
+    </form>
+
+    </body>
+</html>
+
+
+<script
+  src="https://code.jquery.com/jquery-3.2.0.min.js"
+  integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="
+  crossorigin="anonymous">
+</script>
+
+<script>
+    $("#postButton").on("submit",(function(e){
+        e.preventDefault();
+        $.ajax({
+          type: "POST",
+          url: "/posts",
+          data: {content:$('#content').val(),lat:$('#lat').val(),long:$('#long').val(),
+          max_life:$('#max_life').val()},
+          success: function(data){
+            console.log(data);
+            return data;
+            },
+          dataType: "JSON"
+          });
+    }));
+</script>
