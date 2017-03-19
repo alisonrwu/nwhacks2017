@@ -42,9 +42,8 @@ var UI = (function($) {
     }
     
     function refreshPosts_processComments(json) {
-        alert(json);
-        for(var key in json) {
-            var obj = json[key];
+        for(var i = json.length - 1; i >=0; i--) {
+            var obj = json[i];
             LIST_VIEW.addComment(obj.post_id, obj.id, obj.time_stamp, LIST_VIEW.hashNameToColor(obj.username, obj.post_id), obj.username, obj.content);
         }
     }

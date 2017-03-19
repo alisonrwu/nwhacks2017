@@ -51,8 +51,8 @@ var UI = (function($) {
     
     function loadPost_processComments(json) {
         var first = true;
-        for(var key in json) {
-            var obj = json[key];
+        for(var i = json.length - 1; i >= 0; i--) {
+            var obj = json[i];
             if(first) {
                 // Update the title of the post to be the first comment
                 $(".header .title").html(obj.content);
