@@ -28,8 +28,9 @@ var app = {
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
         this.receivedEvent('deviceready');
-        
-        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        alert("Getting location using high accuracy...");
+        navigator.geolocation.getCurrentPosition
+    (onSuccess, onError, { enableHighAccuracy: true });
     },
 
     // Update DOM on a Received Event

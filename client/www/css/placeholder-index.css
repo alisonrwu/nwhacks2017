@@ -1,0 +1,146 @@
+@font-face {
+    font-family: Roboto;
+    src: url(../fonts/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: Roboto-Bold;
+    src: url(../fonts/Roboto-Bold.ttf);
+}
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'),
+       local('MaterialIcons-Regular'),
+       url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
+       url(../fonts/MaterialIcons-Regular.woff) format('woff'),
+       url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+/* START APP CSS */
+
+body {
+    margin:0;
+    padding:0;
+    font-family: Roboto, sans-serif;
+    width:100%;
+    height:100%;
+    overflow-x:hidden;
+    cursor:default;
+    background-color:#EEEEEE;
+}
+
+.divider {
+    padding:0px 10px;
+    width:calc(100% - 20px);
+    height:1px;
+    background-color:#666;
+    border-bottom:1px solid #FFF;
+}
+
+.sidebar {
+    position:absolute;
+    width:256px;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-color:#FF6600;
+    display:none;
+}
+
+.main {
+    
+}
+
+.main .header {
+    color:#FFF;
+    width:100%;
+    height:64px;
+    background-color:#03A9F4;
+    padding:0px 4px;
+    box-shadow:0px 2px 4px #BCBCBC;
+}
+
+.main .header div {
+    float:left;
+    line-height:64px;
+    height:64px;
+    min-width:64px;
+}
+
+.main .header .menu-button {
+    text-align:center;
+    padding-top:6px;
+}
+
+.main .header .title {
+    font-size:18px;
+}
+
+.main .content {
+    padding:10px;
+}
+
+.main .content .post {
+    margin-left:auto;
+    margin-right:auto;
+    max-width:480px;
+    min-height:100px;
+    border-radius:6px;
+    background-color:#FFF;
+    overflow:hidden;
+}
+
+.main .content .post .image {
+    width:100%;
+    height:200px;
+    background-size:cover;
+}
+
+.main .content .post .details {
+    font-size:10px;
+    color:#A4A4A4;
+    text-transform: uppercase;
+    padding:0px 16px;
+    height:24px;
+    line-height:24px;
+    position:relative;
+}
+
+.main .content .post .details .username {
+    position:absolute;
+    left:10px;
+}
+
+.main .content .post .details .timestamp {
+    position:absolute;
+    right:10px;
+}
