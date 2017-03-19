@@ -45,7 +45,7 @@ router.post('/', (req, res, next) => {
   });
 });
 
-router.get('/post', (req, res, next) => {
+router.get('/', (req, res, next) => {
   const results = [];
   // Get a Postgres client from the connection pool
   pg.connect(connectionString, (err, client, done) => {

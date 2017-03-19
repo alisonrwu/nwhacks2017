@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>Test Post Button</title>
+    </head>
+    <body>
+
+    <form id="postButton" action="/posts" method="post">
+      <input name="username" type="text">
+      <input name="password" type="password">
+      <input type="submit">Ok</input>
+    </form>
+
+    </body>
+</html>
+
+
+<script>
+$(document).ready(function(){
+    $("#postButton").submit(function(){
+        $.ajax({
+          method: "POST",
+          type: "POST",
+          url: "/posts",
+          data: data,
+          success: success,
+          dataType: dataType
+        });
+    });
+});
+</script>

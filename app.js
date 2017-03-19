@@ -32,3 +32,6 @@ app.get('/hi', function(req, res) {
 app.get('/map', function(req, res) {
 	res.sendFile(__dirname + '/maptest/index.html');
 });
+app.get('/testPostPage', function(req, res) {
+	res.sendFile(__dirname + '/client/www/testPostPage.html');
+});
