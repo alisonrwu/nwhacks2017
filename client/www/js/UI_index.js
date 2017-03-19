@@ -23,6 +23,7 @@ var UI = (function($) {
     
     function refreshPosts() {
         CordovaInterface.getPosition(refreshPosts_getPosition);
+        // also get the radius from settings
     }
     
     function refreshPosts_getPosition(position) {

@@ -143,7 +143,7 @@ router.post('/comments', (req, res, next) => {
     client.query('INSERT INTO comment(post_id, time_stamp,username,content) values($1,$2,$3,$4)',
     [data.post_id, data.time_stamp, data.username, data.content]);
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM comment ORDER BY time_stamp DESC');
+    const query = client.query('SELECT * FROM comment ORDER BY time_stamp DESC LIMIT 1');
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
