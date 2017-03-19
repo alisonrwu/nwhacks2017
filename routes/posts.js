@@ -4,9 +4,14 @@ var router = express.Router();
 // Connect to CockroachDB
 var async = require('async');
 var pg = require('pg');
-var connectionString = process.env.DATABASE_URL || 'postgresql://root@52.60.142.17:26257?sslmode=disable';
-var client = new pg.Client(connectionString);
-
+//var connectionString = process.env.DATABASE_URL || 'postgresql://root@52.60.142.17:26257?sslmode=disable';
+//var client = new pg.Client(connectionString);
+var config = {
+  user: 'root',
+  host: '52.60.142.17', //ip address of server
+  database: 'nwhacks2017',
+  port: 26257
+};
 /*
 router.get('/', function(req, res) {
     res.send('GET handler for /posts route.');
@@ -20,10 +25,10 @@ router.post('/', function(req, res) {
 router.post('/', (req, res, next) => {
   const results = [];
   // Grab data from http request
-  const data = {content: "stuff", lat: "stuff",long: "long", 
-  				maxLife: "maxLife"};
+  const data = {content: "stuff", lat: 5,long: 5, 
+  				max_life: 5}
   // Get a Postgres client from the connection pool
-  pg.connect(connectionString, (err, client, done) => {
+  pg.connect(config, (err, client, done) => {
     // Handle connection errors
     if(err) {
       done();
@@ -35,11 +40,12 @@ router.post('/', (req, res, next) => {
 
     //get DateTime
     var timestamp = new Date().toLocaleString();
+    console.log(timestamp);
 
-    client.query('INSERT INTO posts(timestamp,context,lat,lon,maxRadius,maxLife) values($1,$2,$3,$4,$5)',
-    [timestamp, data.content, data.lat, data.long, maxLife]);
+    client.query('INSERT INTO post(timestamp, content,lat,long,max_life) values($1,$2,$3,$4,$5)',
+    [data.timestamp, data.content, data.lat, data.long, data.max_life]);
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM posts ORDER BY id ASC');
+    const query = client.query('SELECT * FROM post ORDER BY id ASC');
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
