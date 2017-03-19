@@ -1,25 +1,33 @@
 var DATABASE = (function($) {
     function loadPosts(nLat, nLon, nRadius, fCallback) {
-        
+        $.ajax({
+            url:"http://localhost:8080/posts",
+            data: {
+                lat:nLat,
+                lon:nLon,
+                radius:nRadius
+            },
+            success:function(data) {
+                fCallback(data);
+            },
+            type:"GET"
+        });
     }
     
-    function loadComments(iPostID) {
+    function loadComments(iPostID, fCallback) {
         $.ajax({
            url: 'http://localhost:8080/posts/comments',
            data: {
-              format: 'json'
-           },
-           error: function() {
-              $('#info').html('<p>An error has occurred</p>');
+              post_id:iPostID
            },
            success: function(data) {
-               alert("Data!");
+               fCallback(data);
            },
            type: 'GET'
         });
     }
     
-    function addComment(iPostID, sUsername, sContent) {
+    function addComment(iPostID, sUsername, sContent, fCallback) {
         $.ajax({
             url:'http://localhost:8080/posts/comments',
             data: {
@@ -33,8 +41,7 @@ var DATABASE = (function($) {
                 alert(JSON.stringify(e));
             },
             success:function(data) {
-                alert("Success.");
-                alert(JSON.stringify(data));
+                fCallback(data);
             },
             type:"POST"
         });

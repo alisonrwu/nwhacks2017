@@ -22,5 +22,13 @@
         },
         "is_top_level": false,
         "variables": {}
+    },
+    "cordova-plugin-imagepicker": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-imagepicker"
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

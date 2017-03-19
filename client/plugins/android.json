@@ -12,6 +12,9 @@
         },
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.nwhacks2017.geopost"
+        },
+        "cordova-plugin-imagepicker": {
+            "PACKAGE_NAME": "com.nwhacks2017.geopost"
         }
     },
     "dependent_plugins": {

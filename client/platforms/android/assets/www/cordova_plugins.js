@@ -13,6 +13,14 @@ module.exports = [
         "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
         "pluginId": "cordova-plugin-geolocation",
         "runs": true
+    },
+    {
+        "id": "cordova-plugin-imagepicker.ImagePicker",
+        "file": "plugins/cordova-plugin-imagepicker/www/imagepicker.js",
+        "pluginId": "cordova-plugin-imagepicker",
+        "clobbers": [
+            "plugins.imagePicker"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -20,7 +28,8 @@ module.exports.metadata =
 {
     "cordova-plugin-whitelist": "1.3.2",
     "cordova-plugin-compat": "1.1.0",
-    "cordova-plugin-geolocation": "2.4.2"
+    "cordova-plugin-geolocation": "2.4.2",
+    "cordova-plugin-imagepicker": "1.1.0"
 };
 // BOTTOM OF METADATA
 });

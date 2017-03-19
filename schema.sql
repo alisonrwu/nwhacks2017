@@ -5,7 +5,7 @@ DROP TABLE if EXISTS post, comment;
 -- CREATE SEQUENCE post_id_seq; -- DEFAULT nextval('post_id_seq'),
 CREATE TABLE post (
 	id SERIAL PRIMARY KEY NOT NULL,
-	time_stamp TIMESTAMP NOT NULL,
+	time_stamp INT NOT NULL,
 	content VARCHAR NOT NULL,
 	lat REAL NOT NULL,
 	long REAL NOT NULL,

@@ -7,6 +7,9 @@
     <feature name="Geolocation">
         <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
     </feature>
+    <feature name="ImagePicker">
+        <param name="android-package" value="com.synconset.ImagePicker" />
+    </feature>
     <name>CacheRoom</name>
     <description>
         An application created in 24 hours for nwHacks 2017.

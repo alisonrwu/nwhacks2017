@@ -25,9 +25,9 @@ router.post('/', function(req, res) {
 router.post('/', (req, res, next) => {
   const results = [];
   // Grab data from http request
-  var time_stamp = new Date(); 
-  const data = {time_stamp:time_stamp, content: req.body["content"], lat: req.body["lat"],
-  				long: req.body["long"],	max_life: req.body["max_life"]}
+  var time_stamp = new Date();
+  const data = {time_stamp:time_stamp, content: req.query["content"], lat: req.query["lat"],
+  				long: req.query["long"],	max_life: req.query["max_life"]}
 
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
@@ -62,9 +62,9 @@ router.post('/', (req, res, next) => {
 
 router.get('/', (req, res, next) => {
   const results = [];
-  const lat = 0;
-  const long = 0; // this will be replaced by cordova coordinates, sent by JS
-  const radius = 10; // again, this will be sent by JS
+  const lat = req.query["lat"];
+  const long = req.query["lon"]; // this will be replaced by cordova coordinates, sent by JS
+  const radius = req.query["radius"]; // again, this will be sent by JS
 
   const queryString = "SELECT * FROM post WHERE lat > " + (lat - radius).toString() + " AND lat < " + (lat + radius).toString() + " AND long > " + (long - radius).toString() +
   " AND long < " + (long + radius).toString() + " ORDER BY id ASC;";
@@ -96,8 +96,8 @@ router.post('/comments', (req, res, next) => {
   const results = [];
   // Grab data from http request
   var time_stamp = new Date(); 
-  const data = {time_stamp:time_stamp, post_id: req.body["post_id"], username: req.body["username"],
-  				content: req.body["content"]}
+  const data = {time_stamp:time_stamp, post_id: req.query["post_id"], username: req.query["username"],
+  				content: req.query["content"]}
 
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
@@ -132,9 +132,11 @@ router.post('/comments', (req, res, next) => {
 
 router.get('/comments', (req, res, next) => {
   const results = [];
-  const id = 228828138969366529; // this will be passed in by JS
-  const queryString = "SELECT * FROM comment WHERE id = " + id + " ORDER BY id ASC;";
+  const id = req.query["post_id"]; // this will be passed in by JS
+  const queryString = "SELECT * FROM comment WHERE post_id = " + id + " ORDER BY id ASC;";
   // Get a Postgres client from the connection pool
+    const time_stamp = new Date();
+    console.log(time_stamp);
   pg.connect(config, (err, client, done) => {
     // Handle connection errors
     if(err) {
