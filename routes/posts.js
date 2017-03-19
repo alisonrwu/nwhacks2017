@@ -69,7 +69,7 @@ router.get('/', (req, res, next) => {
   const queryString = "SELECT * FROM post WHERE lat > " + (lat - radius).toString() + " AND lat < " + (lat + radius).toString() + " AND long > " + (long - radius).toString() +
   " AND long < " + (long + radius).toString() + " AND " + (time_stamp + max_life - Math.floor(Date.now() / 1000)).toString() + " > 0" + " ORDER BY time_stamp DESC;";
 console.log(queryString);
-console.log(Math.floor(Date.now() / 1000);
+console.log(Math.floor(Date.now() / 1000));
 
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
