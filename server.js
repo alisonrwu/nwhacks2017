@@ -54,3 +54,7 @@ app.get('/testPostPage', function(req, res) {
 app.get('/getPostPage', function(req, res) {
 	res.sendFile(__dirname + '/client/www/getPostPage.html');
 });
+
+app.get('/settings', function(req, res) {
+    res.sendFile(__dirname + 'client/www/settings.html');
+});
