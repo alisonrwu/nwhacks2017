@@ -6,8 +6,8 @@ var pg = require('pg');
 var PORT = 8080;
 // Connect to the cluster.
 var config = {
-  user: 'maxroach',
-  host: 'localhost',
+  user: 'root',
+  host: '52.60.142.17', //ip address of server
   database: 'bank',
   port: 26257
 };
