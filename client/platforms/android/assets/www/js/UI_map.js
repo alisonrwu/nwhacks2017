@@ -34,17 +34,23 @@ var UI = (function($) {
     }
     
     function refreshMap_processLocations(json) {
-        for(var key in json[0]){
+        // console.log(json);
+        var locations = [];
+
+        for(var key in json[0]){ //current location string to float
             json[0][key]=parseFloat(json[0][key]);
         }
-        for(var obj of json){
-            var longValue = obj['long'];
-            delete obj['long'];
-            obj.lng = longValue;
-        }
-        // console.log(json);
+        // locations.push(json[0]);
 
-        var locations = json;
+        for(var obj of json){
+            // if(obj != json[0]){
+                var longValue = obj['long'];
+                delete obj['long'];
+                obj.lng = longValue;
+                locations.push({'lat': obj['lat'], 'lng': obj['lng']});
+            // }
+        }
+
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 12,
             center: locations[0]
@@ -60,31 +66,38 @@ var UI = (function($) {
             center: locations[0],
             radius: 15
         });
-
-        // var marker, info;
-        for(var loc of locations){
-            if(loc != json[0]){
+// console.log(json);
+// console.log(locations);
+        // for(var loc of locations){
+        for(var i=0; i<locations.length; i++){
+            // console.log(json[i]);
+            // console.log(locations[i]);
+            if(i > 0){
                 var marker = new google.maps.Marker({
-                    position: loc,
+                    position: locations[i],
                     // animation: google.maps.Animation.DROP,
                     map: map
                 });
-                var icontent = 'hi';
-                var prop = 'content';
+                // console.log(json[i].id);
+                var icontent = '<a href="details.html?post_id='+json[i].id+'">hi</a>'; //<a href="details.html?post_id='+iPostID+'"><div class="image" style="background-image:url('+sImageURL+')"></div></a>
+                // console.log(icontent);
                 // if(loc.prop){
-                //     icontent = loc.content.substring(0, loc.content.length-3);
                 //     // icontent = '<div class="image" style="background-image:url('+"https://www.ryanwirth.ca/misc/nwhacks2017/hotlink-ok/"+loc.content+')"></div>';
                 // } else
                 //     icontent = 'hello';
                 // }
-                var infowindow = new google.maps.InfoWindow({
+                var infowindow = new google.maps.InfoWindow(
+                {
                     content: icontent
                 });
                 marker.addListener('click', function() {
+                    console.log(icontent);
+                    // infowindow.setContent(icontent);
                     infowindow.open(map, this);
                 });
             }
         }
+
     }
     
     return {
