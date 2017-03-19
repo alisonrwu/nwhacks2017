@@ -66,38 +66,36 @@ var UI = (function($) {
             center: locations[0],
             radius: 15
         });
-// console.log(json);
-// console.log(locations);
-        // for(var loc of locations){
-        for(var i=0; i<locations.length; i++){
-            // console.log(json[i]);
-            // console.log(locations[i]);
-            if(i > 0){
-                var marker = new google.maps.Marker({
-                    position: locations[i],
-                    // animation: google.maps.Animation.DROP,
-                    map: map
-                });
-                // console.log(json[i].id);
-                var icontent = '<a href="details.html?post_id='+json[i].id+'">hi</a>'; //<a href="details.html?post_id='+iPostID+'"><div class="image" style="background-image:url('+sImageURL+')"></div></a>
-                // console.log(icontent);
-                // if(loc.prop){
-                //     // icontent = '<div class="image" style="background-image:url('+"https://www.ryanwirth.ca/misc/nwhacks2017/hotlink-ok/"+loc.content+')"></div>';
-                // } else
-                //     icontent = 'hello';
-                // }
-                var infowindow = new google.maps.InfoWindow(
-                {
-                    content: icontent
-                });
-                marker.addListener('click', function() {
-                    console.log(icontent);
-                    // infowindow.setContent(icontent);
-                    infowindow.open(map, this);
-                });
-            }
-        }
 
+        var infowindow = null;
+        var marker = null;
+        var icontent = null;
+        infowindow = new google.maps.InfoWindow( {content: 'hello'} );
+        for(var i=1; i<locations.length; i++){
+            icontent = '<a href="details.html?post_id='+json[i].id+'">'+
+            '<img src="'+"https://www.ryanwirth.ca/misc/nwhacks2017/hotlink-ok/"+json[i].content+'" width="100" height="100">'
+            +'</a>';
+            // icontent = '<a href="details.html?post_id='+json[i].id+'">hi</a>';
+            console.log(icontent);
+            locations[i]['href'] = icontent;
+        }
+        // console.log(locations);
+        for(var i=1; i<locations.length; i++){
+
+            marker = new google.maps.Marker({
+                position: locations[i],
+                animation: google.maps.Animation.DROP,
+                map: map
+            });
+
+            google.maps.event.addListener(marker, 'click', (function(marker, i){
+                return function(){
+                    infowindow.setContent(locations[i]['href']);
+                    infowindow.setOptions({maxWidth: 200});
+                    infowindow.open(map, marker);
+                }
+            })(marker, i));
+        }
     }
     
     return {
