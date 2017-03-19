@@ -27,7 +27,7 @@ router.post('/', (req, res, next) => {
   // Grab data from http request
   var time_stamp = new Date();
   const data = {time_stamp:time_stamp, content: req.query["content"], lat: req.query["lat"],
-  				long: req.query["long"],	max_life: req.query["max_life"]}
+  				lon: req.query["long"],	max_life: req.query["max_life"]}
 
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
@@ -45,7 +45,7 @@ router.post('/', (req, res, next) => {
     console.log(time_stamp);
 
     client.query('INSERT INTO post(time_stamp, content,lat,long,max_life) values($1,$2,$3,$4,$5)',
-    [data.time_stamp, data.content, data.lat, data.long, data.max_life]);
+    [data.time_stamp, data.content, data.lat, data.lon, data.max_life]);
     // SQL Query > Select Data
     const query = client.query('SELECT * FROM post ORDER BY id ASC');
     // Stream results back one row at a time
@@ -63,11 +63,11 @@ router.post('/', (req, res, next) => {
 router.get('/', (req, res, next) => {
   const results = [];
   const lat = req.query["lat"];
-  const long = req.query["lon"]; // this will be replaced by cordova coordinates, sent by JS
+  const lon = req.query["lon"]; // this will be replaced by cordova coordinates, sent by JS
   const radius = req.query["radius"]; // again, this will be sent by JS
-
-  const queryString = "SELECT * FROM post WHERE lat > " + (lat - radius).toString() + " AND lat < " + (lat + radius).toString() + " AND long > " + (long - radius).toString() +
-  " AND long < " + (long + radius).toString() + " ORDER BY id ASC;";
+console.log(req);
+  const queryString = "SELECT * FROM post WHERE lat > " + (lat - radius).toString() + " AND lat < " + (lat + radius).toString() + " AND long > " + (lon - radius).toString() +
+  " AND long < " + (lon + radius).toString() + " ORDER BY id ASC;";
   console.log(queryString);
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
