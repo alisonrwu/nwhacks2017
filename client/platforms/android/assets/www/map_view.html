@@ -5,23 +5,50 @@
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/placeholder-index.css">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
         <style>
           #map {
             height: 400px;
             width: 100%;
            }
         </style>
-        <title>CacheRoom - Main</title>
+        <title>GeoPost - Main</title>
     </head>
     <body>
         <div class="sidebar">
-            
+            <div class="content">
+                <div class="title">
+                    <i class="material-icons">explore</i>
+                    <span>GeoPost</span>
+                </div>
+                
+                <a href="index.html">
+                    <div class="tab">
+                        <i class="material-icons">whatshot</i>
+                        <span>Most Recent</span>
+                    </div>
+                </a>
+                <a href="map_view.html">
+                    <div class="tab tab-active">
+                        <i class="material-icons">map</i>
+                        <span>View Map</span>
+                    </div>
+                </a>
+                <div class="tab">
+                    <i class="material-icons">settings</i>
+                    <span>Settings</span>
+                </div>
+                <div class="tab">
+                    <i class="material-icons">info</i>
+                    <span>About</span>
+                </div>
+            </div>
+            <div class="fade"></div>
         </div>
         <div class="main">
             <div class="header">
                 <div class="menu-button"><i class="material-icons">menu</i></div>
-                <div class="title">App Name</div>
+                <div class="title">GeoPost</div>
             </div>
             
             <div class="content">
@@ -30,22 +57,15 @@
                 </div>
             </div>
         </div>
-    <script>
-      function initMap() {
-        var location = {lat: 49.2765, lng: -123.2177};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 15,
-          center: location
-        });
-        var marker = new google.maps.Marker({
-          position: location,
-          map: map
-        });
-      }
-    </script>
     <!-- <script type="text/javascript" src="js/map.js"></script> -->
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDklKARJQmiN7GB4UcIEz0FgOym6Nvv1LM&callback=initMap">
     </script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
+    <script type="text/javascript" src="js/UI_map.js"></script>
+    <script type="text/javascript" src="js/UI_unified.js"></script>
+    <script type="text/javascript" src="js/Database.js"></script>
+    <script type="text/javascript" src="js/CI.js"></script>
     </body>
 </html>

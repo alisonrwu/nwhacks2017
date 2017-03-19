@@ -414,6 +414,13 @@ body {
     line-height: 16px;
 }
 
+.content .loading {
+    width:240px;
+    height:240px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
 .spacer {
     width:100%;
     height:70px;

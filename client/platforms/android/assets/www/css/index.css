@@ -164,6 +164,7 @@ body {
 }
 
 .main .header .menu-button {
+    cursor:pointer;
     text-align:center;
     padding-top:6px;
 }
@@ -411,6 +412,13 @@ body {
     font-size:14px !important;
     height:16px;
     line-height: 16px;
+}
+
+.content .loading {
+    width:240px;
+    height:240px;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 .spacer {

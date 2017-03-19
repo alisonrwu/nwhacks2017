@@ -35,10 +35,17 @@ var UI = (function($) {
     }
     
     function refreshPosts_processPosts(json) {
+        // Remove the loading spinner
+        $(".main .content").empty();
+        
         for(var key in json) {
             var obj = json[key];
             LIST_VIEW.addPost(obj.id, "https://www.ryanwirth.ca/misc/nwhacks2017/hotlink-ok/" + obj.content);
             DATABASE.loadComments(obj.id, refreshPosts_processComments);
+        }
+        
+        if(json.length == 0) {
+            $(".content").append("<div class='loading'>Hmm... There don't seem to be any posts here!</div>");
         }
     }
     
