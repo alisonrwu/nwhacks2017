@@ -26,8 +26,8 @@ router.post('/', (req, res, next) => {
   const results = [];
   // Grab data from http request
   const time_stamp = Math.floor(Date.now() / 1000)
-  const data = {time_stamp:time_stamp, content: req.query["content"], lat: req.query["lat"],
-  				lon: req.query["long"],	max_life: req.query["max_life"]}
+  const data = {time_stamp:time_stamp, content: req.body["content"], lat: req.body["lat"],
+  				lon: req.body["long"],	max_life: req.body["max_life"]}
 
   // Get a Postgres client from the connection pool
   pg.connect(config, (err, client, done) => {
