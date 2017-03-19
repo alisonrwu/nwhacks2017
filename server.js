@@ -56,5 +56,5 @@ app.get('/getPostPage', function(req, res) {
 });
 
 app.get('/settings', function(req, res) {
-    res.sendFile(__dirname + 'client/www/settings.html');
+    res.sendFile(__dirname + '/client/www/settings.html');
 });
