@@ -46,7 +46,7 @@ var UI = (function($) {
 
         var locations = json;
         var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 20,
+            zoom: 12,
             center: locations[0]
         });
 
@@ -58,15 +58,28 @@ var UI = (function($) {
             fillOpacity: 0.35,
             map: map,
             center: locations[0],
-            radius: 10
-        })
+            radius: 15
+        });
 
+        var marker, info;
         for(var loc of locations){
             if(loc != json[0]){
-                var marker = new google.maps.Marker({
+                marker = new google.maps.Marker({
                     position: loc,
+                    // animation: google.maps.Animation.DROP,
                     map: map
                 });
+                info = new google.maps.InfoWindow({
+                    content: "hi"
+                });
+                marker.addListener('click', function(){
+                    info.open(map, marker);
+                    // map.setZoom(20);
+                    // map.setCenter(marker.getPosition());
+                });
+                // google.maps.event.addListener(marker, 'click', function(){
+                //     info.open(map, marker);
+                // });
             }
         }
     }
@@ -79,18 +92,7 @@ var UI = (function($) {
 
 
 function initMap() {
-    // var locations = [{lat: -25.363, lng: 131.044}, {lat: -24.363, lng: 130.044}];
-    // var map = new google.maps.Map(document.getElementById('map'), {
-    //     zoom: 4,
-    //     center: locations[0]
-    // });
-
-    // for(var loc of locations){
-    //     var marker = new google.maps.Marker({
-    //         position: loc,
-    //         map: map
-    //     });
-    // }
+    //do nothing
 }
 
 
