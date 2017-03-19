@@ -1,7 +1,8 @@
 var DATABASE = (function($) {
+    var host = "http://ancient-savannah-98407.herokuapp.com/";
     function loadMap(nLat, nLon, fCallback) {
         $.ajax({
-            url:"http://localhost:8080/map",
+            url:host + "map",
             data: {
                 lat:nLat,
                 lon:nLon
@@ -14,7 +15,6 @@ var DATABASE = (function($) {
         });
     }
     
-    var host = "http://ancient-savannah-98407.herokuapp.com/";
     function loadPosts(nLat, nLon, nRadius, fCallback) {
         $.ajax({
             url:host + "posts",
