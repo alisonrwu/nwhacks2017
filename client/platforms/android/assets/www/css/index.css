@@ -195,6 +195,18 @@ body {
     background-size:cover;
 }
 
+.main .content .detailed-post {
+    width:100%;
+}
+
+.main .content .detailed-post .image {
+    width:100%;
+    min-height:480px;
+    background-size:contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .comments {
     padding:0px 10px;
 }
@@ -399,4 +411,9 @@ body {
     font-size:14px !important;
     height:16px;
     line-height: 16px;
+}
+
+.spacer {
+    width:100%;
+    height:70px;
 }

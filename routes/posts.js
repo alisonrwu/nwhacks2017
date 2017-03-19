@@ -94,6 +94,36 @@ console.log(Math.floor(Date.now() / 1000));
 });
 
 
+
+router.get('/details', (req, res, next) => {
+  const results = [];
+  const post_id = req.query["post_id"];
+
+  const queryString = "SELECT * from post WHERE post_id='" + post_id + "' LIMIT 1";
+  // Get a Postgres client from the connection pool
+  pg.connect(config, (err, client, done) => {
+    // Handle connection errors
+    if(err) {
+      done();
+      console.log(err);
+      return res.status(500).json({success: false, data: err});
+    }
+    // SQL Query > Select Data
+    const query = client.query(queryString);
+    // Stream results back one row at a time
+    query.on('row', (row) => {
+      results.push(row);
+    });
+    // After all data is returned, close connection and return results
+    query.on('end', () => {
+      done();
+      return res.json(results);
+    });
+  });
+});
+
+
+
 router.post('/comments', (req, res, next) => {
   const results = [];
   // Grab data from http request
@@ -119,7 +149,7 @@ router.post('/comments', (req, res, next) => {
     client.query('INSERT INTO comment(post_id, time_stamp,username,content) values($1,$2,$3,$4)',
     [data.post_id, data.time_stamp, data.username, data.content]);
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM comment ORDER BY time_stamp DESC');
+    const query = client.query('SELECT * FROM comment WHERE time_stamp='+ time_stamp + ' ORDER BY time_stamp DESC LIMIT 1 ');
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);

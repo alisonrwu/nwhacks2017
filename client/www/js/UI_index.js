@@ -26,8 +26,12 @@ var UI = (function($) {
         // also get the radius from settings
     }
     
+    var lastLatitude = 0;
+    var lastLongitude = 0;
     function refreshPosts_getPosition(position) {
-        DATABASE.loadPosts(position.coords.latitude, position.coords.longitude, 1000, refreshPosts_processPosts);
+        lastLatitude = position.coords.latitude;
+        lastLongitude = position.coords.longitude;
+        DATABASE.loadPosts(position.coords.latitude, position.coords.longitude, 1, refreshPosts_processPosts);
     }
     
     function refreshPosts_processPosts(json) {
@@ -39,8 +43,8 @@ var UI = (function($) {
     }
     
     function refreshPosts_processComments(json) {
-        for(var key in json) {
-            var obj = json[key];
+        for(var i = json.length - 1; i >=0; i--) {
+            var obj = json[i];
             LIST_VIEW.addComment(obj.post_id, obj.id, obj.time_stamp, LIST_VIEW.hashNameToColor(obj.username, obj.post_id), obj.username, obj.content);
         }
     }
@@ -59,7 +63,7 @@ var UI = (function($) {
 var LIST_VIEW = (function($) {
     function addPost(iPostID, sImageURL) {
         $(".main .content").append('<div class="post" id="post'+iPostID+'">\
-                    <div class="image" style="background-image:url('+sImageURL+')"></div>\
+                    <a href="details.html?post_id='+iPostID+'"><div class="image" style="background-image:url('+sImageURL+')"></div></a>\
                     <div class="comments">\
                         <div class="comment-input">\
                             <input class="text" type="text" placeholder="Add a comment..." maxlength="140" />\

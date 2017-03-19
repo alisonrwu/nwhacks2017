@@ -1,7 +1,8 @@
 var DATABASE = (function($) {
+    var host = "http://ancient-savannah-98407.herokuapp.com/";
     function loadMap(nLat, nLon, fCallback) {
         $.ajax({
-            url:"http://localhost:8080/map",
+            url:host + "map",
             data: {
                 lat:nLat,
                 lon:nLon
@@ -14,7 +15,6 @@ var DATABASE = (function($) {
         });
     }
     
-    var host = "http://ancient-savannah-98407.herokuapp.com/";
     function loadPosts(nLat, nLon, nRadius, fCallback) {
         $.ajax({
             url:host + "posts",
@@ -107,7 +107,29 @@ var DATABASE = (function($) {
         });
     }
     
+    function uploadImage_fallback(fileSelector, fCallback) {
+        var data = new FormData();
+        data.append('image', fileSelector.prop('files')[0]);
+        
+        $.ajax({
+            url:"https://www.ryanwirth.ca/misc/nwhacks2017/upload.php",
+            processData: false, // important
+            contentType: false, // important
+            data: data,
+            error:function(e) {
+                alert("Error!");
+                alert(JSON.stringify(e));
+            },
+            success:function(data) {
+                fCallback(data);
+            },
+            type:"POST"
+        });
+    }
+    
     function uploadImage(fileURL, fileMimeType, fCallback) {
+        
+        // We have Cordova enabled!
         var options = new FileUploadOptions();
         options.fileKey = "image";
         options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
@@ -129,6 +151,7 @@ var DATABASE = (function($) {
         loadComments:loadComments,
         addComment:addComment,
         addPost:addPost,
-        uploadImage:uploadImage
+        uploadImage:uploadImage,
+        uploadImage_fallback:uploadImage_fallback
     }
 })(jQuery);
