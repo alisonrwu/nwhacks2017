@@ -6,7 +6,6 @@ var DATABASE = (function($) {
             data: {
                 lat:nLat,
                 lon:nLon
-                // radius:nRadius
             },
             success:function(data) {
                 fCallback(data);
