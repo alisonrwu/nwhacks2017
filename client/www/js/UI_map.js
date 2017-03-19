@@ -1,3 +1,5 @@
+var locations;
+
 var UI = (function($) {
     var cordovaReady = false;
     var jQueryReady = false;
@@ -14,8 +16,8 @@ var UI = (function($) {
     function setupUI() {
         $(".menu-button").click(SIDEBAR.open);
         $(".sidebar .fade").click(SIDEBAR.close);
-        
 
+        refreshMap();
     }
 
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -24,6 +26,24 @@ var UI = (function($) {
                   'Error: The Geolocation service failed.' :
                   'Error: Your browser doesn\'t support geolocation.');
     }
+
+    function refreshMap() {
+        CordovaInterface.getPosition(refreshMap_getPosition);
+    }
+    
+    function refreshMap_getPosition(position) {
+        DATABASE.loadMap(position.coords.latitude, position.coords.longitude, refreshMap_processLocations);
+    }
+    
+    function refreshMap_processLocations(json) {
+        console.log(json);
+        locations = json;
+        // for(var key in json) {
+            // var obj = json[key];
+            // LIST_VIEW.addPost(obj.id, obj.content);
+            // DATABASE.loadComments(obj.id, refreshPosts_processComments);
+        // }
+    }
     
     return {
         markCordovaReady:markCordovaReady,
@@ -31,16 +51,20 @@ var UI = (function($) {
     }
 })(jQuery);
 
+
 function initMap() {
-  var location = {lat: 49.2765, lng: -123.2177};
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 15,
-    center: location
-  });
-  var marker = new google.maps.Marker({
-    position: location,
-    map: map
-  });
+    var locations = [{lat: -25.363, lng: 131.044}, {lat: -24.363, lng: 130.044}];
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 4,
+        center: locations[0]
+    });
+
+    for(var loc of locations){
+        var marker = new google.maps.Marker({
+            position: loc,
+            map: map
+        });
+    }
 }
 
 

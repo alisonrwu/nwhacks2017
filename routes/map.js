@@ -14,10 +14,11 @@ var config = {
 };
 
 router.get('/', function(req, res){
-    // res.send('GET handler for /map route.');
-    // res.sendFile(path.join(__dirname, '../client/www/maptest.html'));
-
     const results = [];
+    const lat = req.query["lat"];
+	const long = req.query["lon"]; // this will be replaced by cordova coordinates, sent by JS
+	// const radius = req.query["radius"]; // again, this will be sent by JS
+
 	// Get a Postgres client from the connection pool
 	pg.connect(config, (err, client, done) => {
 		// Handle connection errors
