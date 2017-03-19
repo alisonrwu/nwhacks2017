@@ -63,7 +63,7 @@ router.post('/', (req, res, next) => {
 router.get('/', (req, res, next) => {
   const results = [];
   // Get a Postgres client from the connection pool
-  pg.connect(connectionString, (err, client, done) => {
+  pg.connect(config, (err, client, done) => {
     // Handle connection errors
     if(err) {
       done();
@@ -106,10 +106,10 @@ router.post('/comments', (req, res, next) => {
 
     console.log(time_stamp);
 
-    client.query('INSERT INTO comments(post_id, time_stamp,username,content,max_life) values($1,$2,$3,$4,$5)',
+    client.query('INSERT INTO comment(post_id, time_stamp,username,content,max_life) values($1,$2,$3,$4,$5)',
     [data.time_stamp, data.content, data.lat, data.long, data.content]);
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM comments ORDER BY id ASC');
+    const query = client.query('SELECT * FROM comment ORDER BY id ASC');
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
@@ -125,7 +125,7 @@ router.post('/comments', (req, res, next) => {
 router.get('/comments', (req, res, next) => {
   const results = [];
   // Get a Postgres client from the connection pool
-  pg.connect(connectionString, (err, client, done) => {
+  pg.connect(config, (err, client, done) => {
     // Handle connection errors
     if(err) {
       done();
@@ -133,7 +133,7 @@ router.get('/comments', (req, res, next) => {
       return res.status(500).json({success: false, data: err});
     }
     // SQL Query > Select Data
-    const query = client.query('SELECT * FROM comments ORDER BY id ASC;');
+    const query = client.query('SELECT * FROM comment WHERE id= ORDER BY id ASC;');
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
