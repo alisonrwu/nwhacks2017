@@ -76,7 +76,6 @@ var UI = (function($) {
             '<img src="'+"https://www.ryanwirth.ca/misc/nwhacks2017/hotlink-ok/"+json[i].content+'" width="100" height="100">'
             +'</a>';
             // icontent = '<a href="details.html?post_id='+json[i].id+'">hi</a>';
-            console.log(icontent);
             locations[i]['href'] = icontent;
         }
         // console.log(locations);
